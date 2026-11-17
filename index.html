@@ -1,1088 +1,1502 @@
 <!DOCTYPE html>
 <html lang="hy">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PixoToast 🎀 100 Միջուկով Պիքսելային Տոստերի Ստուդիա</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wght@500;700;800;900&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-white: #ffffff;
-            --grid-line: #f1eff4;
-            --hot-pink: #ff2e93;
-            --bright-pink: #ff5cad;
-            --soft-pink: #ffe6f2;
-            --pastel-pink: #ffb8dc;
-            --pixel-dark: #1e0a14;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Toast Studio — Ռեալիստիկ Տոստերի Ստուդիա</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #fff5f8;
+      --pink-50: #fff0f5;
+      --pink-100: #ffe0eb;
+      --pink-200: #ffc2d9;
+      --pink-300: #ff94bd;
+      --pink-400: #ff5c9d;
+      --pink-500: #ff2e82;
+      --pink-600: #e01b6c;
+      --text-dark: #3b1d2a;
+      --text-muted: #8c6273;
+      --shadow-soft: 0 14px 36px rgba(255, 46, 130, 0.14);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+    }
 
-        body {
-            font-family: 'Noto Sans Armenian', sans-serif;
-            background-color: var(--bg-white);
-            background-image: 
-                linear-gradient(to right, var(--grid-line) 1.5px, transparent 1.5px),
-                linear-gradient(to bottom, var(--grid-line) 1.5px, transparent 1.5px);
-            background-size: 20px 20px;
-            color: var(--pixel-dark);
-            overflow-x: hidden;
-            user-select: none;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        .font-pixel-en {
-            font-family: 'Silkscreen', 'Press Start 2P', monospace;
-        }
+    body {
+      font-family: 'Noto Sans Armenian', sans-serif;
+      background: radial-gradient(circle at top left, #ffe4ef 0%, #fff7fa 48%, #ffedf4 100%);
+      color: var(--text-dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+      user-select: none;
+    }
 
-        .pixel-box {
-            background: #ffffff;
-            border: 3px solid var(--pixel-dark);
-            box-shadow: 4px 4px 0px var(--pixel-dark);
-            border-radius: 14px;
-        }
+    .bg-blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(70px);
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+    .blob-1 { width: 380px; height: 380px; background: #ffc2d9; top: -90px; right: -70px; }
+    .blob-2 { width: 340px; height: 340px; background: #ffd6e6; bottom: -70px; left: -70px; }
 
-        .pixel-box-pink {
-            background: #fff5fa;
-            border: 3px solid var(--hot-pink);
-            box-shadow: 4px 4px 0px var(--pixel-dark);
-            border-radius: 16px;
-        }
+    header {
+      position: relative;
+      z-index: 10;
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 18px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
 
-        .pixel-pill-bar {
-            background: #ffffff;
-            border: 3px solid var(--hot-pink);
-            box-shadow: 0 6px 0px rgba(255, 46, 147, 0.22);
-            border-radius: 18px;
-        }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-        .pixel-btn {
-            background: var(--hot-pink);
-            color: #ffffff;
-            border: 3px solid var(--pixel-dark);
-            box-shadow: 3px 3px 0px var(--pixel-dark);
-            border-radius: 12px;
-            transition: transform 0.1s ease, box-shadow 0.1s ease;
-        }
+    .brand-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--pink-400), var(--pink-500));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      box-shadow: 0 8px 20px rgba(255, 46, 130, 0.28);
+    }
 
-        .pixel-btn:hover {
-            background: #ff1a88;
-            transform: translate(-1px, -1px);
-            box-shadow: 4px 4px 0px var(--pixel-dark);
-        }
+    .brand h1 {
+      font-size: 22px;
+      font-weight: 800;
+    }
 
-        .pixel-btn:active {
-            transform: translate(2px, 2px);
-            box-shadow: 1px 1px 0px var(--pixel-dark);
-        }
+    .brand span {
+      display: block;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
 
-        .pixel-btn-white {
-            background: #ffffff;
-            color: var(--pixel-dark);
-            border: 3px solid var(--pixel-dark);
-            box-shadow: 3px 3px 0px var(--pixel-dark);
-            border-radius: 12px;
-            transition: transform 0.1s ease, box-shadow 0.1s ease;
-        }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-        .pixel-btn-white:hover {
-            background: var(--soft-pink);
-            transform: translate(-1px, -1px);
-            box-shadow: 4px 4px 0px var(--pixel-dark);
-        }
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
 
-        .pixel-btn-white:active {
-            transform: translate(2px, 2px);
-            box-shadow: 1px 1px 0px var(--pixel-dark);
-        }
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-dark);
+      border: 1.5px solid var(--pink-200);
+    }
+    .btn-ghost:hover {
+      background: var(--pink-50);
+      transform: translateY(-2px);
+    }
 
-        .item-card {
-            background: #ffffff;
-            border: 2.5px solid #f7c6df;
-            border-radius: 12px;
-            transition: all 0.14s ease;
-        }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--pink-400), var(--pink-500));
+      color: #ffffff;
+      box-shadow: 0 8px 22px rgba(255, 46, 130, 0.32);
+    }
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 12px 26px rgba(255, 46, 130, 0.42);
+    }
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
 
-        .item-card:hover {
-            border-color: var(--hot-pink);
-            background: #fff7fb;
-            transform: translateY(-2px);
-            box-shadow: 0 3px 0px var(--hot-pink);
-        }
+    /* Հիմնական դասավորություն */
+    .studio-layout {
+      position: relative;
+      z-index: 10;
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 8px 28px 50px;
+      display: grid;
+      grid-template-columns: 470px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
 
-        .item-card.selected {
-            border: 3px solid var(--pixel-dark);
-            background: var(--soft-pink);
-            box-shadow: 3px 3px 0px var(--hot-pink);
-        }
+    @media (max-width: 1020px) {
+      .studio-layout {
+        grid-template-columns: 1fr;
+      }
+    }
 
-        @keyframes ghostFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-9px); }
-        }
+    /* Ձախ վահանակ՝ Տոստեր և Ափսե */
+    .preview-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(18px);
+      border: 2px solid #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 22px 24px 26px;
+      box-shadow: var(--shadow-soft);
+      position: sticky;
+      top: 16px;
+      text-align: center;
+    }
 
-        @keyframes pixelDrop {
-            0% { transform: scale(0.4) translateY(-35px); opacity: 0; }
-            75% { transform: scale(1.06) translateY(3px); opacity: 1; }
-            100% { transform: scale(1) translateY(0); opacity: 1; }
-        }
+    .chef-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--pink-50);
+      border: 1px solid var(--pink-200);
+      padding: 6px 15px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--pink-600);
+      margin-bottom: 12px;
+    }
 
-        @keyframes pixelSparkle {
-            0% { transform: scale(0.5) translateY(0); opacity: 1; }
-            100% { transform: scale(1.6) translateY(-35px); opacity: 0; }
-        }
+    /* Իրական աշխատող վարդագույն տոստերի հատված */
+    .toaster-zone {
+      position: relative;
+      height: 155px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
 
-        .animate-ghost {
-            animation: ghostFloat 2.8s ease-in-out infinite;
-        }
+    .toaster-bread-slot {
+      position: absolute;
+      bottom: 48px;
+      width: 104px;
+      height: 104px;
+      z-index: 1;
+      transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+      opacity: 0;
+      transform: translateY(35px) scale(0.85);
+      pointer-events: none;
+    }
 
-        .animate-drop {
-            animation: pixelDrop 0.32s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
+    .toaster-bread-slot.in-toaster {
+      opacity: 1;
+      transform: translateY(38px) scale(0.92);
+    }
 
-        .particle-fx {
-            position: fixed;
-            pointer-events: none;
-            z-index: 999;
-            animation: pixelSparkle 0.85s ease-out forwards;
-        }
+    .toaster-bread-slot.popping-out {
+      opacity: 1;
+      transform: translateY(-28px) scale(1.02);
+    }
 
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #fff0f7;
-            border-radius: 8px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #ff70b8;
-            border-radius: 8px;
-            border: 2px solid #fff0f7;
-        }
-    </style>
+    .toaster-body {
+      position: relative;
+      z-index: 3;
+      width: 210px;
+      height: 92px;
+      border-radius: 32px 32px 16px 16px;
+      background: linear-gradient(145deg, #ff85b6 0%, #ff4791 55%, #d91e6b 100%);
+      box-shadow:
+        0 14px 26px rgba(217, 30, 107, 0.28),
+        inset 0 6px 14px rgba(255, 255, 255, 0.65),
+        inset 0 -8px 14px rgba(150, 14, 70, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffb8d4;
+    }
+
+    .toaster-slot-top {
+      position: absolute;
+      top: -6px;
+      width: 136px;
+      height: 12px;
+      background: #471429;
+      border-radius: 999px;
+      box-shadow: inset 0 3px 6px #000000;
+      z-index: 2;
+    }
+
+    .toaster-glow {
+      position: absolute;
+      top: -4px;
+      width: 124px;
+      height: 8px;
+      border-radius: 999px;
+      background: #ff6b00;
+      box-shadow: 0 0 18px 6px rgba(255, 115, 0, 0.85);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 2;
+    }
+    .toaster-body.heating .toaster-glow {
+      opacity: 1;
+    }
+
+    .toaster-chrome-base {
+      position: absolute;
+      bottom: -6px;
+      width: 222px;
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #e0d6da, #ffffff, #cfc2c7);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+
+    .toaster-lever {
+      position: absolute;
+      right: -16px;
+      top: 24px;
+      width: 16px;
+      height: 36px;
+      background: linear-gradient(180deg, #ffffff, #ffd6e6);
+      border-radius: 0 10px 10px 0;
+      border: 1.5px solid #ff94bd;
+      transition: transform 0.35s ease;
+      box-shadow: 2px 4px 8px rgba(0,0,0,0.12);
+    }
+
+    .toaster-body.heating .toaster-lever {
+      transform: translateY(26px);
+    }
+
+    .toaster-dial {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ffffff, #ffd6e6);
+      border: 2px solid #ff94bd;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+      position: absolute;
+      left: 22px;
+      bottom: 18px;
+    }
+
+    .toast-action-bar {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    /* Ափսե և Ազատ Drag & Drop հարթակ */
+    .plate-stage {
+      position: relative;
+      width: 340px;
+      height: 340px;
+      margin: 0 auto 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+    }
+
+    .plate {
+      position: absolute;
+      width: 326px;
+      height: 326px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 28%, #ffffff 0%, #fff7fa 62%, #ffd9e8 100%);
+      box-shadow:
+        0 22px 44px rgba(224, 27, 108, 0.16),
+        inset 0 6px 14px rgba(255, 255, 255, 1),
+        inset 0 -10px 22px rgba(255, 175, 207, 0.5);
+      border: 6px solid #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .plate.drag-over {
+      box-shadow:
+        0 0 0 6px rgba(255, 46, 130, 0.25),
+        0 22px 44px rgba(224, 27, 108, 0.22);
+    }
+
+    .plate-inner-ring {
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      border: 1.5px dashed var(--pink-200);
+      opacity: 0.75;
+    }
+
+    #toast-canvas {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bread-layer {
+      position: absolute;
+      width: 230px;
+      height: 230px;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      filter: drop-shadow(0 14px 20px rgba(59, 29, 42, 0.22));
+      pointer-events: none;
+    }
+
+    .bread-layer.jumping {
+      animation: breadJump 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes breadJump {
+      0% { transform: translateY(-90px) scale(0.75); opacity: 0.4; }
+      60% { transform: translateY(8px) scale(1.04); opacity: 1; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    /* Տեղաշարժվող միջուկ ափսեի վրա */
+    .topping-layer {
+      position: absolute;
+      width: 72px;
+      height: 72px;
+      transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
+      cursor: grab;
+      filter: drop-shadow(0 6px 10px rgba(45, 20, 32, 0.26));
+      transition: filter 0.15s ease;
+    }
+
+    .topping-layer:hover {
+      filter: drop-shadow(0 8px 14px rgba(255, 46, 130, 0.42));
+    }
+
+    .topping-layer.dragging {
+      cursor: grabbing;
+      z-index: 999 !important;
+      transform: translate(-50%, -50%) scale(1.14) rotate(var(--rot, 0deg));
+    }
+
+    .hint-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .selected-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      justify-content: center;
+      max-height: 76px;
+      overflow-y: auto;
+      margin-bottom: 14px;
+    }
+
+    .pill {
+      background: var(--pink-50);
+      border: 1px solid var(--pink-200);
+      color: var(--text-dark);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: 0.18s;
+    }
+    .pill:hover {
+      background: var(--pink-200);
+    }
+
+    .preview-controls {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .finish-btn {
+      width: 100%;
+      justify-content: center;
+      padding: 14px 22px;
+      font-size: 15.5px;
+      margin-top: 10px;
+    }
+
+    /* Աջ վահանակ՝ Հացեր և 100 միջուկ */
+    .builder-card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(18px);
+      border: 2px solid #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .section-title {
+      font-size: 16.5px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-title span.badge {
+      font-size: 12px;
+      background: var(--pink-100);
+      color: var(--pink-600);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .bread-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .bread-item {
+      background: var(--bg-main);
+      border: 2px solid transparent;
+      border-radius: var(--radius-md);
+      padding: 10px 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .bread-item:hover {
+      transform: translateY(-3px);
+      background: #ffffff;
+      box-shadow: 0 6px 18px rgba(59, 29, 42, 0.06);
+    }
+
+    .bread-item.active {
+      background: #ffffff;
+      border-color: var(--pink-500);
+      box-shadow: 0 8px 20px rgba(255, 46, 130, 0.16);
+    }
+
+    .bread-thumb {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 6px;
+    }
+
+    .bread-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.25;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 11px 18px 11px 40px;
+      border-radius: 999px;
+      border: 2px solid var(--pink-100);
+      background: var(--bg-main);
+      font-family: inherit;
+      font-size: 13.5px;
+      color: var(--text-dark);
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: var(--pink-400);
+      background: #ffffff;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--pink-400);
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tab-btn {
+      border: 1.5px solid var(--pink-100);
+      background: #ffffff;
+      color: var(--text-muted);
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .tab-btn.active {
+      background: var(--pink-500);
+      border-color: var(--pink-500);
+      color: #ffffff;
+    }
+
+    .toppings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 10px;
+      max-height: 520px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .toppings-grid::-webkit-scrollbar {
+      width: 6px;
+    }
+    .toppings-grid::-webkit-scrollbar-thumb {
+      background: var(--pink-200);
+      border-radius: 999px;
+    }
+
+    .topping-card {
+      background: var(--bg-main);
+      border: 1.5px solid transparent;
+      border-radius: var(--radius-md);
+      padding: 10px 6px;
+      text-align: center;
+      cursor: grab;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .topping-card:hover {
+      background: #ffffff;
+      border-color: var(--pink-300);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(59, 29, 42, 0.06);
+    }
+
+    .topping-count-badge {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: var(--pink-500);
+      color: white;
+      font-size: 10.5px;
+      font-weight: 800;
+      min-width: 19px;
+      height: 19px;
+      padding: 0 5px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .topping-svg-box {
+      width: 54px;
+      height: 54px;
+      margin: 0 auto 5px;
+    }
+
+    .topping-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.25;
+    }
+
+    /* Ավարտի պատուհան */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(59, 29, 42, 0.45);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #ffffff;
+      border-radius: 32px;
+      max-width: 450px;
+      width: 100%;
+      padding: 32px 26px;
+      text-align: center;
+      box-shadow: 0 24px 60px rgba(224, 27, 108, 0.25);
+      border: 3px solid var(--pink-100);
+    }
+
+    .modal-box h2 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--pink-600);
+      margin: 8px 0 10px;
+    }
+
+    .modal-box p {
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .recipe-summary {
+      background: var(--pink-50);
+      border-radius: 16px;
+      padding: 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .confetti {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 200;
+      animation: fall 2.4s ease-out forwards;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+  </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between">
+<body>
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
 
-    <!-- ՎԵՐԻՆ ՆԱՎԻԳԱՑԻԱ -->
-    <header class="w-full max-w-6xl mx-auto px-4 pt-4 pb-2 flex items-center justify-between gap-2">
-        <div class="flex items-center gap-2.5">
-            <svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-8 h-8 sm:w-9 sm:h-9 shrink-0">
-                <rect x="4" y="1" width="8" height="2" fill="#ff2e93"/>
-                <rect x="2" y="3" width="12" height="2" fill="#ff2e93"/>
-                <rect x="1" y="5" width="14" height="7" fill="#ff2e93"/>
-                <rect x="1" y="12" width="3" height="3" fill="#ff2e93"/>
-                <rect x="6" y="12" width="4" height="3" fill="#ff2e93"/>
-                <rect x="12" y="12" width="3" height="3" fill="#ff2e93"/>
-                <rect x="4" y="6" width="2" height="3" fill="#ffffff"/>
-                <rect x="10" y="6" width="2" height="3" fill="#ffffff"/>
-            </svg>
-            <span class="font-pixel-en font-bold text-xl sm:text-2xl tracking-tight text-[#1e0a14]">PixoToast</span>
-        </div>
-
-        <nav class="hidden md:flex items-center gap-7 text-sm font-bold text-[#1e0a14]">
-            <a href="#studio-section" class="hover:text-[#ff2e93] transition">8 Հացեր</a>
-            <a href="#studio-section" class="hover:text-[#ff2e93] transition">100 Միջուկներ</a>
-            <a href="#combos-section" class="hover:text-[#ff2e93] transition">Պատրաստի Կոմբոներ</a>
-        </nav>
-
-        <button onclick="finishToast()" class="pixel-btn px-4 py-2 text-xs sm:text-sm font-extrabold flex items-center gap-1.5 cursor-pointer">
-            <span>Պատրաստել</span>
-            <span class="font-pixel-en">-></span>
-        </button>
-    </header>
-
-    <!-- ՀԻՄՆԱԿԱՆ ՄԱՍ -->
-    <main class="flex-1 w-full">
-        <!-- Վերնագիր -->
-        <section class="max-w-4xl mx-auto text-center px-4 pt-3 pb-2 relative">
-            <svg viewBox="0 0 24 14" shape-rendering="crispEdges" class="w-16 h-10 hidden sm:block absolute left-4 top-6 opacity-90">
-                <path d="M6,2 h8 v2 h4 v2 h4 v6 h-20 v-6 h4 v-2 h2 z" fill="#ffffff"/>
-                <path d="M6,1 h8 v1 h-8 z M4,3 h2 v1 h-2 z M14,3 h4 v1 h-4 z M2,5 h2 v1 h-2 z M18,5 h4 v1 h-4 z" fill="#f3e6ee"/>
-            </svg>
-            <svg viewBox="0 0 11 10" shape-rendering="crispEdges" class="w-7 h-7 hidden sm:block absolute right-12 top-5 animate-bounce">
-                <path d="M2,1 h2 v1 h1 v1 h1 v-1 h1 v-1 h2 v1 h1 v3 h-1 v2 h-2 v2 h-2 v1 h-1 v-1 h-2 v-2 h-2 v-2 h-1 v-3 h1 z" fill="#ff2e93"/>
-            </svg>
-
-            <h1 class="text-3xl sm:text-5xl md:text-[50px] font-black tracking-tight text-[#1e0a14] leading-[1.12]">
-                Փոքր պիքսելներ։<br>
-                <span class="text-[#ff2e93]">100 Համեղ Միջուկ։</span>
-            </h1>
-            <p class="mt-2.5 text-xs sm:text-sm md:text-base font-bold text-[#4a2538] max-w-2xl mx-auto">
-                Ընտրիր քո սիրելի հացը և ավելացրու բանջարեղեններ, պանիրներ, երշիկներ, սոուսներ, մրգեր կամ շա՜տ քաղցրավենիքներ։
-            </p>
-        </section>
-
-        <!-- ԻՆՏԵՐԱԿՏԻՎ ՍՏՈՒԴԻԱ -->
-        <section id="studio-section" class="max-w-7xl mx-auto px-3 sm:px-4 pt-2 pb-6 relative z-20">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
-
-                <!-- ՁԱԽ ՍՅՈՒՆԱԿ՝ 8 ՀԱՑԵՐ (3 սյունակ) -->
-                <div class="lg:col-span-3 pixel-box p-3.5">
-                    <div class="flex items-center justify-between mb-2.5 pb-2 border-b-2 border-[#ffe6f2]">
-                        <h2 class="text-sm sm:text-base font-black text-[#1e0a14] flex items-center gap-1.5">
-                            <span>🍞</span> Հացեր (8)
-                        </h2>
-                        <span class="font-pixel-en text-[10px] bg-[#ffe6f2] text-[#ff2e93] px-2 py-0.5 rounded-md font-bold">01</span>
-                    </div>
-                    <div id="bread-list" class="grid grid-cols-2 lg:grid-cols-1 gap-2 max-h-[340px] lg:max-h-[480px] overflow-y-auto pr-1"></div>
-                </div>
-
-                <!-- ԿԵՆՏՐՈՆԱԿԱՆ ՍՅՈՒՆԱԿ՝ ՏՈՍՏԻ ԱՓՍԵ ԵՎ ՄԱՍԿՈՏ (4 սյունակ) -->
-                <div class="lg:col-span-4 flex flex-col items-center">
-                    <div class="w-full pixel-box-pink p-4 relative flex flex-col items-center">
-                        
-                        <div class="w-full flex items-center justify-between gap-2 mb-2">
-                            <span id="selected-bread-badge" class="bg-[#ffe6f2] border-2 border-[#ff2e93] text-[#1e0a14] text-xs font-extrabold px-2.5 py-1 rounded-lg truncate">
-                                🍞 Վարդագույն բրիոշ
-                            </span>
-                            <span class="font-pixel-en text-xs font-bold text-[#ff2e93] bg-white px-2.5 py-1 rounded-lg border-2 border-[#1e0a14] shrink-0">
-                                <span id="layer-counter">0</span> շերտ
-                            </span>
-                        </div>
-
-                        <!-- Ափսեի և Պիքսելային Ուրվականիկի տարածք -->
-                        <div class="relative w-full max-w-[300px] aspect-square my-1 flex items-center justify-center">
-                            <svg viewBox="0 0 64 64" shape-rendering="crispEdges" class="w-full h-full">
-                                <rect x="14" y="56" width="36" height="3" fill="#ffb8dc"/>
-                                <rect x="10" y="53" width="44" height="3" fill="#ffb8dc"/>
-                                <path d="M20,8 h24 v2 h6 v2 h4 v4 h2 v6 h2 v20 h-2 v6 h-2 v4 h-4 v2 h-6 v2 h-24 v-2 h-6 v-2 h-4 v-4 h-2 v-6 h-2 v-20 h2 v-6 h2 v-4 h4 v-2 h6 z" fill="#1e0a14"/>
-                                <path d="M20,10 h24 v2 h6 v2 h4 v4 h2 v6 h2 v16 h-2 v6 h-2 v4 h-4 v2 h-6 v2 h-24 v-2 h-6 v-2 h-4 v-4 h-2 v-6 h-2 v-16 h2 v-6 h2 v-4 h4 v-2 h6 z" fill="#ffcce6"/>
-                                <path d="M22,13 h20 v2 h5 v2 h3 v3 h2 v5 h1 v14 h-1 v5 h-2 v3 h-3 v2 h-5 v2 h-20 v-2 h-5 v-2 h-3 v-3 h-2 v-5 h-1 v-14 h1 v-5 h2 v-3 h3 v-2 h5 z" fill="#ffffff"/>
-                            </svg>
-
-                            <div id="plate-bread-layer" class="absolute inset-0 flex items-center justify-center pointer-events-none"></div>
-                            <div id="plate-toppings-layer" class="absolute inset-0 flex items-center justify-center pointer-events-none"></div>
-
-                            <!-- Pixo Ուրվական Մասկոտ -->
-                            <div class="absolute -right-2 -bottom-2 flex flex-col items-center animate-ghost z-30 pointer-events-none">
-                                <div id="mascot-bubble" class="bg-white border-2 border-[#ff2e93] px-2 py-0.5 rounded-lg shadow-sm mb-1 text-[10px] font-extrabold text-[#ff2e93] whitespace-nowrap">
-                                    ♥ 100 միջուկ քեզ համար
-                                </div>
-                                <svg viewBox="0 0 24 24" shape-rendering="crispEdges" class="w-14 h-14 sm:w-16 sm:h-16 drop-shadow-md">
-                                    <path d="M8,3 h8 v1 h2 v2 h2 v3 h1 v9 h-2 v2 h-2 v-1 h-2 v2 h-3 v-2 h-2 v2 h-2 v-2 h-2 v1 h-2 v-3 h1 v-8 h1 v-3 h2 v-2 h2 z" fill="#1e0a14"/>
-                                    <path d="M8,4 h8 v1 h2 v2 h1 v3 h1 v7 h-2 v1 h-2 v-1 h-2 v2 h-2 v-2 h-2 v2 h-2 v-2 h-2 v1 h-1 v-2 h1 v-6 h1 v-3 h1 v-2 h2 z" fill="#ffffff"/>
-                                    <rect x="6" y="15" width="12" height="2" fill="#ffe0f0"/>
-                                    <rect x="8" y="9" width="3" height="4" fill="#1e0a14"/>
-                                    <rect x="14" y="9" width="3" height="4" fill="#1e0a14"/>
-                                    <rect x="8" y="9" width="1" height="1" fill="#ffffff"/>
-                                    <rect x="14" y="9" width="1" height="1" fill="#ffffff"/>
-                                    <rect x="10" y="12" width="1" height="1" fill="#ff2e93"/>
-                                    <rect x="16" y="12" width="1" height="1" fill="#ff2e93"/>
-                                    <rect x="6" y="13" width="2" height="1" fill="#ff70b8"/>
-                                    <rect x="17" y="13" width="2" height="1" fill="#ff70b8"/>
-                                </svg>
-                            </div>
-                        </div>
-
-                        <!-- Ավելացված միջուկների ցուցակ -->
-                        <div class="w-full mt-2 bg-[#fff5fa] border-2 border-[#ffcce6] rounded-xl p-2">
-                            <div class="flex items-center justify-between text-[11px] font-bold text-[#7a3b5c] mb-1">
-                                <span>Ավելացված շերտեր՝</span>
-                                <div class="flex gap-2">
-                                    <button onclick="undoTopping()" class="text-[#ff2e93] hover:underline cursor-pointer">↩ Հետ քայլ</button>
-                                    <button onclick="clearToast()" class="text-[#1e0a14] hover:underline cursor-pointer">✕ Մաքրել</button>
-                                </div>
-                            </div>
-                            <div id="added-tags" class="flex flex-wrap gap-1 max-h-16 overflow-y-auto min-h-[24px] items-center">
-                                <span class="text-[11px] text-[#b87a99]">Դեռ դատարկ է... ընտրիր աջից 👉</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Գործողության կենտրոնական վարդագույն եզրով բար -->
-                    <div class="w-full mt-3 pixel-pill-bar p-2 flex items-center justify-between gap-2">
-                        <div class="flex items-center gap-1.5 pl-1.5 min-w-0">
-                            <span class="text-[#ff2e93] text-base shrink-0">✦</span>
-                            <span id="status-bar-text" class="text-xs font-bold text-[#5e2d46] truncate">
-                                Պատրա՞ստ ես համտեսել...
-                            </span>
-                        </div>
-                        <button onclick="finishToast()" class="pixel-btn px-4 py-2 text-xs sm:text-sm font-black shrink-0 flex items-center gap-1 cursor-pointer">
-                            <span>Պատրաստ է ✨</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ԱՋ ՍՅՈՒՆԱԿ՝ 100 ՄԻՋՈՒԿՆԵՐ + ՈՐՈՆՈՒՄ + ԿԱՏԵԳՈՐԻԱՆԵՐ (5 սյունակ) -->
-                <div class="lg:col-span-5 pixel-box p-3.5">
-                    <div class="flex items-center justify-between gap-2 mb-2 pb-2 border-b-2 border-[#ffe6f2]">
-                        <h2 class="text-sm sm:text-base font-black text-[#1e0a14] flex items-center gap-1.5">
-                            <span>🥑</span> Միջուկներ (<span id="total-count-badge">100</span>)
-                        </h2>
-                        <span class="font-pixel-en text-[10px] bg-[#ffe6f2] text-[#ff2e93] px-2 py-0.5 rounded-md font-bold">02</span>
-                    </div>
-
-                    <!-- Որոնման դաշտ -->
-                    <div class="mb-2.5 relative">
-                        <input id="topping-search" type="text" oninput="handleSearch(this.value)" placeholder="🔍 Փնտրել միջուկ (օր.՝ ավոկադո, պանիր, ելակ)..." 
-                               class="w-full bg-[#fff7fb] border-2 border-[#ffb8dc] focus:border-[#ff2e93] focus:outline-none rounded-xl px-3 py-1.5 text-xs font-bold text-[#1e0a14] placeholder-[#b87a99]">
-                        <button id="clear-search-btn" onclick="clearSearch()" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-xs font-black text-[#ff2e93] cursor-pointer">✕</button>
-                    </div>
-
-                    <!-- 7 Կատեգորիաների կոճակներ -->
-                    <div class="flex flex-wrap gap-1 mb-2.5" id="category-tabs">
-                        <button onclick="setCategory('all')" data-cat="all" class="cat-tab px-2 py-1 rounded-lg text-[11px] font-extrabold bg-[#ff2e93] text-white border-2 border-[#1e0a14] cursor-pointer">
-                            Բոլորը (100)
-                        </button>
-                        <button onclick="setCategory('veg')" data-cat="veg" class="cat-tab px-2 py-1 rounded-lg text-[11px] font-extrabold bg-[#ffe6f2] text-[#1e0a14] border-2 border-transparent hover:border-[#ff2e93] cursor-pointer">
-                            🥑 Բանջարեղեն (20)
-                        </button>
-                        <button onclick="setCategory('cheese')" data-cat="cheese" class="cat-tab px-2 py-1 rounded-lg text-[11px] font-extrabold bg-[#ffe6f2] text-[#1e0a14] border-2 border-transparent hover:border-[#ff2e93] cursor-pointer">
-                            🧀 Պանիրներ (15)
-                        </button>
-                        <button onclick="setCategory('meat')" data-cat="meat" class="cat-tab px-2 py-1 rounded-lg text-[11px] font-extrabold bg-[#ffe6f2] text-[#1e0a14] border-2 border-transparent hover:border-[#ff2e93] cursor-pointer">
-                            🥓 Երշիկ/Միս (20)
-                        </button>
-                        <button onclick="setCategory('sauce')" data-cat="sauce" class="cat-tab px-2 py-1 rounded-lg text-[11px] font-extrabold bg-[#ffe6f2] text-[#1e0a14] border-2 border-transparent hover:border-[#ff2e93] cursor-pointer">
-                            🥫 Սոուսներ (15)
-                        </button>
-                        <button onclick="setCategory('fruit')" data-cat="fruit" class="cat-tab px-2 py-1 rounded-lg text-[11px] font-extrabold bg-[#ffe6f2] text-[#1e0a14] border-2 border-transparent hover:border-[#ff2e93] cursor-pointer">
-                            🍓 Մրգեր (15)
-                        </button>
-                        <button onclick="setCategory('sweet')" data-cat="sweet" class="cat-tab px-2 py-1 rounded-lg text-[11px] font-extrabold bg-[#ffe6f2] text-[#1e0a14] border-2 border-transparent hover:border-[#ff2e93] cursor-pointer">
-                            🎀 Քաղցր (15)
-                        </button>
-                    </div>
-
-                    <!-- 100 Միջուկների ցանց -->
-                    <div id="toppings-grid" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-3 gap-2 max-h-[410px] overflow-y-auto pr-1"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ՊԻՔՍԵԼԱՅԻՆ ՀՈՐԻԶՈՆ ԵՎ ՎԱՐԴԱԳՈՒՅՆ ԲՆԱՊԱՏԿԵՐ -->
-        <div class="w-full overflow-hidden -mt-4 pointer-events-none select-none">
-            <svg viewBox="0 0 320 56" shape-rendering="crispEdges" preserveAspectRatio="none" class="w-full h-24 sm:h-36 md:h-44 block">
-                <rect x="0" y="34" width="320" height="6" fill="#ffd6eb"/>
-                <rect x="0" y="38" width="320" height="6" fill="#ff99ce"/>
-                <g transform="translate(8, 6)">
-                    <rect x="6" y="4" width="14" height="12" fill="#ff2e93"/>
-                    <rect x="4" y="6" width="18" height="8" fill="#ff5cad"/>
-                    <rect x="8" y="3" width="10" height="4" fill="#ff85c2"/>
-                    <rect x="11" y="16" width="4" height="8" fill="#2d0c1c"/>
-                    <rect x="24" y="8" width="10" height="9" fill="#ff2e93"/>
-                    <rect x="22" y="10" width="14" height="5" fill="#ff70b8"/>
-                    <rect x="28" y="17" width="3" height="7" fill="#2d0c1c"/>
-                    <rect x="0" y="24" width="46" height="3" fill="#ff2e93"/>
-                    <rect x="2" y="27" width="42" height="4" fill="#2d0c1c"/>
-                    <rect x="8" y="31" width="28" height="3" fill="#2d0c1c"/>
-                </g>
-                <g transform="translate(254, 4)">
-                    <rect x="30" y="2" width="2" height="12" fill="#2d0c1c"/>
-                    <rect x="32" y="3" width="7" height="5" fill="#ff2e93"/>
-                    <rect x="22" y="14" width="18" height="12" fill="#ff5cad"/>
-                    <rect x="26" y="11" width="10" height="3" fill="#ff85c2"/>
-                    <rect x="8" y="12" width="10" height="8" fill="#ff2e93"/>
-                    <rect x="12" y="20" width="2" height="6" fill="#2d0c1c"/>
-                    <rect x="2" y="26" width="54" height="3" fill="#ff2e93"/>
-                    <rect x="5" y="29" width="48" height="4" fill="#2d0c1c"/>
-                    <rect x="12" y="33" width="34" height="3" fill="#2d0c1c"/>
-                </g>
-                <rect x="75" y="14" width="3" height="3" fill="#ff2e93"/>
-                <rect x="235" y="10" width="3" height="3" fill="#ff2e93"/>
-                <rect x="233" y="12" width="7" height="1" fill="#ff5cad"/>
-                <rect x="236" y="9" width="1" height="7" fill="#ff5cad"/>
-                <path d="M0,44 h16 v-3 h14 v3 h22 v-4 h18 v4 h26 v-3 h20 v3 h24 v-4 h18 v4 h28 v-3 h22 v3 h24 v-4 h20 v4 h26 v-3 h22 v3 h20 v12 h-320 z" fill="#ff2e93"/>
-            </svg>
-        </div>
-
-        <!-- ՍՏՈՐԻՆ ՎԱՐԴԱԳՈՒՅՆ ՀԱՏՎԱԾ (3 ՊԱՏՐԱՍՏԻ ԿՈՄԲՈՆԵՐ) -->
-        <section id="combos-section" class="w-full bg-[#ff2e93] pt-2 pb-12 px-4 text-white">
-            <div class="max-w-5xl mx-auto">
-                <div class="text-center mb-6">
-                    <p class="font-pixel-en text-[11px] sm:text-xs tracking-widest uppercase text-[#ffe6f2] font-bold">
-                        BUILT FOR DELICIOUS TOASTS • ՊԱՏՐԱՍՏԻ ԲԱՂԱԴՐԱՏՈՄՍԵՐ
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
-                    <div class="bg-[#fff7fb] text-[#1e0a14] rounded-2xl p-5 border-3 border-[#1e0a14] shadow-[4px_4px_0px_#1e0a14] flex items-start gap-3.5">
-                        <div class="shrink-0 bg-[#ffe6f2] p-2.5 rounded-xl border-2 border-[#ff2e93]">
-                            <svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-8 h-8">
-                                <path d="M6,2 h4 v2 h2 v8 h-2 v2 h-4 v-2 h-2 v-8 h2 z" fill="#55a630"/>
-                                <rect x="6" y="4" width="4" height="8" fill="#bfd200"/>
-                                <rect x="7" y="8" width="2" height="3" fill="#7f4f24"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="font-black text-base text-[#1e0a14]">Ավոկադո Բրունչ</h3>
-                            <p class="text-xs text-[#5e2d46] font-semibold mt-1">
-                                Հացահատիկային տոստ, ավոկադո, ապխտած սաղմոն, պաշոտ ձու և ռուկոլա։
-                            </p>
-                            <button onclick="applyPreset('avocado_brunch')" class="mt-2.5 inline-flex items-center gap-1 text-xs font-extrabold text-[#ff2e93] hover:underline cursor-pointer">
-                                <span>Փորձել հիմա</span>
-                                <span class="font-pixel-en">-></span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="bg-[#fff7fb] text-[#1e0a14] rounded-2xl p-5 border-3 border-[#1e0a14] shadow-[4px_4px_0px_#1e0a14] flex items-start gap-3.5">
-                        <div class="shrink-0 bg-[#ffe6f2] p-2.5 rounded-xl border-2 border-[#ff2e93]">
-                            <svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-8 h-8">
-                                <rect x="3" y="4" width="10" height="8" fill="#ffd166"/>
-                                <rect x="5" y="6" width="2" height="2" fill="#f4a261"/>
-                                <rect x="9" y="9" width="2" height="2" fill="#f4a261"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="font-black text-base text-[#1e0a14]">Սուպեր Պեպերոնի Տոստ</h3>
-                            <p class="text-xs text-[#5e2d46] font-semibold mt-1">
-                                Խրթխրթան կրուասան, պանրային սոուս, չեդեր, պեպերոնի, լոլիկ և ձիթապտուղ։
-                            </p>
-                            <button onclick="applyPreset('pepperoni_melt')" class="mt-2.5 inline-flex items-center gap-1 text-xs font-extrabold text-[#ff2e93] hover:underline cursor-pointer">
-                                <span>Փորձել հիմա</span>
-                                <span class="font-pixel-en">-></span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="bg-[#fff7fb] text-[#1e0a14] rounded-2xl p-5 border-3 border-[#1e0a14] shadow-[4px_4px_0px_#1e0a14] flex items-start gap-3.5">
-                        <div class="shrink-0 bg-[#ffe6f2] p-2.5 rounded-xl border-2 border-[#ff2e93]">
-                            <svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-8 h-8">
-                                <path d="M4,4 h8 v2 h2 v2 h-2 v2 h-8 v-2 h-2 v-2 h2 z" fill="#ff5cad"/>
-                                <rect x="3" y="7" width="10" height="2" fill="#ffffff"/>
-                                <path d="M4,9 h8 v2 h-8 z" fill="#ff2e93"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="font-black text-base text-[#1e0a14]">Պիկմի Մակարոն Դեսերտ</h3>
-                            <p class="text-xs text-[#5e2d46] font-semibold mt-1">
-                                Վարդագույն բրիոշ, Նուտելլա, հարած սերուցք, ելակ, մակարոն և բանտիկ։
-                            </p>
-                            <button onclick="applyPreset('pickme_sweet')" class="mt-2.5 inline-flex items-center gap-1 text-xs font-extrabold text-[#ff2e93] hover:underline cursor-pointer">
-                                <span>Փորձել հիմա</span>
-                                <span class="font-pixel-en">-></span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- ՊԱՏՐԱՍՏ Է՝ ՏՈՆԱԿԱՆ ՄՈԴԱԼ ՊԱՏՈՒՀԱՆ -->
-    <div id="finish-modal" class="fixed inset-0 bg-[#1e0a14]/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
-        <div id="finish-modal-card" class="bg-white border-4 border-[#1e0a14] shadow-[8px_8px_0px_#ff2e93] rounded-3xl max-w-md w-full p-6 text-center relative transform scale-95 opacity-0 transition-all duration-200">
-            
-            <div class="inline-flex items-center gap-1.5 bg-[#ffe6f2] border-2 border-[#ff2e93] text-[#ff2e93] text-xs font-black px-3.5 py-1 rounded-full mb-3">
-                <span>♥</span> PIXOTOAST ԳՆԱՀԱՏԱԿԱՆ <span>♥</span>
-            </div>
-
-            <h2 id="modal-delicious-title" class="text-2xl sm:text-3xl font-black text-[#1e0a14] leading-tight mb-2">
-                Շա՜տ-շա՜տ համեղ է ստացվել 💖
-            </h2>
-
-            <p id="modal-delicious-desc" class="text-xs sm:text-sm font-bold text-[#5e2d46] mb-4">
-                Այսպիսի սիրուն, պիքսելային ու ախորժելի տոստ աշխարհում էլ չկա։ Բոն ապետիտ 🍓✨
-            </p>
-
-            <div class="bg-[#fff5fa] border-3 border-[#ffb8dc] rounded-2xl p-4 mb-4">
-                <div id="modal-toast-preview" class="w-40 h-40 mx-auto relative flex items-center justify-center"></div>
-                <p id="modal-recipe-text" class="mt-2 text-xs font-extrabold text-[#ff2e93] max-h-16 overflow-y-auto"></p>
-            </div>
-
-            <div class="flex gap-3">
-                <button onclick="closeFinishModal()" class="flex-1 pixel-btn-white py-2.5 text-xs sm:text-sm font-extrabold cursor-pointer">
-                    ✏️ Էլի ավելացնել
-                </button>
-                <button onclick="startNewToast()" class="flex-1 pixel-btn py-2.5 text-xs sm:text-sm font-extrabold cursor-pointer">
-                    🎀 Նոր տոստ
-                </button>
-            </div>
-        </div>
+  <header>
+    <div class="brand">
+      <div class="brand-icon">🍞</div>
+      <div>
+        <h1>Toast Studio</h1>
+        <span>Տապակիր հացը տոստերում և տեղադրիր միջուկները քո ուզած տեղում</span>
+      </div>
     </div>
+    <div class="header-actions">
+      <button class="btn btn-ghost" onclick="randomToast()">🎲 Պատահական տոստ</button>
+      <button class="btn btn-ghost" onclick="clearToast()">🧹 Մաքրել</button>
+    </div>
+  </header>
 
-    <script>
-        // ============================================================
-        // 1. 8 ՊԻՔՍԵԼԱՅԻՆ ՀԱՑԵՐ
-        // ============================================================
-        const breads = [
-            { id: 'pink_brioche', name: 'Վարդագույն բրիոշ', tag: 'Պիկմի հիթ', crust: '#ff2e93', crumb: '#ffe6f2', dot: '#ff85c2', shape: 'toast' },
-            { id: 'milk_toast', name: 'Կաթնային տոստ', tag: 'Նուրբ ու փափուկ', crust: '#d4822a', crumb: '#fff8e7', dot: '#f5deb3', shape: 'toast' },
-            { id: 'heart_bread', name: 'Սրտաձև հաց', tag: 'Սիրուն սրտիկ', crust: '#ff5cad', crumb: '#fff5fa', dot: '#ffcce6', shape: 'heart' },
-            { id: 'crispy_croissant', name: 'Խրթխրթան կրուասան', tag: 'Շերտավոր', crust: '#b8621b', crumb: '#f7b963', dot: '#d9822b', shape: 'croissant' },
-            { id: 'french_baguette', name: 'Ֆրանսիական բագետ', tag: 'Ոսկեգույն', crust: '#c26d1f', crumb: '#faebd7', dot: '#e3b982', shape: 'baguette' },
-            { id: 'matcha_bread', name: 'Մատչա հաց', tag: 'Կանաչ թեյով', crust: '#4f8a36', crumb: '#dcf5cc', dot: '#95d672', shape: 'toast' },
-            { id: 'choco_marble', name: 'Շոկոլադե մարմարե հաց', tag: 'Կակաոյով', crust: '#4a2311', crumb: '#9c5a3c', dot: '#f5d5c6', shape: 'toast' },
-            { id: 'multigrain_toast', name: 'Հացահատիկային տոստ', tag: 'Առողջարար', crust: '#7f4f24', crumb: '#d4a373', dot: '#582f0e', shape: 'grain' }
-        ];
+  <main class="studio-layout">
+    <!-- Ձախ վահանակ՝ Տոստեր և Ափսե -->
+    <section class="preview-card">
+      <div class="chef-badge" id="chef-comment">1️⃣ Նախ տապակիր հացը տոստերում, ապա դիր միջուկները</div>
 
-        // ============================================================
-        // 2. ՊԻՔՍԵԼԱՅԻՆ SVG ԳԵՆԵՐԱՑԻԱՅԻ ՕԳՆԱԿԱՆ ՖՈՒՆԿՑԻԱՆԵՐ (100 ՄԻՋՈՒԿԻ ՀԱՄԱՐ)
-        // ============================================================
-        function makeSpread(id, name, cat, main, light, dark, drip = false) {
-            const icon = `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9">
-                <path d="M4,4 h8 v2 h2 v5 h-2 v2 h-8 v-2 h-2 v-5 h2 z" fill="${main}"/>
-                <rect x="5" y="5" width="4" height="2" fill="${light}"/>
-                <rect x="8" y="9" width="3" height="1" fill="${dark}"/>
-            </svg>`;
-            const layer = drip
-                ? `<g fill="${main}"><rect x="18" y="22" width="28" height="18"/><rect x="20" y="40" width="4" height="5"/><rect x="30" y="40" width="5" height="6"/><rect x="40" y="40" width="4" height="4"/><rect x="20" y="24" width="12" height="2" fill="${light}"/></g>`
-                : `<g><path d="M18,22 h28 v2 h4 v18 h-4 v2 h-28 v-2 h-4 v-18 h4 z" fill="${main}"/><rect x="20" y="24" width="12" height="2" fill="${light}"/><rect x="24" y="36" width="14" height="2" fill="${dark}"/></g>`;
-            return { id, name, cat, icon, layer };
-        }
+      <!-- Իրական վարդագույն տոստեր -->
+      <div class="toaster-zone">
+        <div class="toaster-bread-slot" id="toaster-bread-slot"></div>
+        <div class="toaster-body" id="toaster-body">
+          <div class="toaster-slot-top"></div>
+          <div class="toaster-glow"></div>
+          <div class="toaster-dial"></div>
+          <div class="toaster-lever"></div>
+          <div class="toaster-chrome-base"></div>
+        </div>
+      </div>
 
-        function makeSlices(id, name, cat, outer, inner, seed = null) {
-            const seedIcon = seed ? `<rect x="7" y="7" width="2" height="2" fill="${seed}"/>` : '';
-            const icon = `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9">
-                <rect x="3" y="3" width="10" height="10" fill="${outer}"/>
-                <rect x="5" y="5" width="6" height="6" fill="${inner}"/>
-                ${seedIcon}
-            </svg>`;
-            const seedLayer = seed ? `<rect x="23" y="25" width="2" height="2" fill="${seed}"/><rect x="39" y="37" width="2" height="2" fill="${seed}"/>` : '';
-            const layer = `<g>
-                <rect x="19" y="21" width="10" height="10" fill="${outer}"/><rect x="21" y="23" width="6" height="6" fill="${inner}"/>
-                <rect x="35" y="21" width="10" height="10" fill="${outer}"/><rect x="37" y="23" width="6" height="6" fill="${inner}"/>
-                <rect x="19" y="33" width="10" height="10" fill="${outer}"/><rect x="21" y="35" width="6" height="6" fill="${inner}"/>
-                <rect x="35" y="33" width="10" height="10" fill="${outer}"/><rect x="37" y="35" width="6" height="6" fill="${inner}"/>
-                ${seedLayer}
-            </g>`;
-            return { id, name, cat, icon, layer };
-        }
+      <div class="toast-action-bar">
+        <button class="btn btn-primary" id="toast-btn" onclick="runToaster()">
+          🔥 Դնել տոստերի մեջ
+        </button>
+      </div>
 
-        function makeBerries(id, name, cat, c1, c2, leaf = null) {
-            const leafIcon = leaf ? `<rect x="6" y="2" width="4" height="2" fill="${leaf}"/>` : '';
-            const icon = `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9">
-                ${leafIcon}
-                <rect x="4" y="4" width="8" height="8" fill="${c1}"/>
-                <rect x="5" y="5" width="2" height="2" fill="${c2}"/>
-                <rect x="9" y="8" width="2" height="2" fill="${c2}"/>
-            </svg>`;
-            const layer = `<g>
-                <rect x="20" y="22" width="5" height="5" fill="${c1}"/><rect x="21" y="23" width="1" height="1" fill="${c2}"/>
-                <rect x="39" y="22" width="5" height="5" fill="${c1}"/><rect x="40" y="23" width="1" height="1" fill="${c2}"/>
-                <rect x="29" y="28" width="6" height="6" fill="${c1}"/><rect x="30" y="29" width="2" height="2" fill="${c2}"/>
-                <rect x="20" y="37" width="5" height="5" fill="${c1}"/><rect x="39" y="37" width="5" height="5" fill="${c1}"/>
-            </g>`;
-            return { id, name, cat, icon, layer };
-        }
+      <!-- Ափսե (Drop Zone) -->
+      <div class="plate-stage" id="plate-stage">
+        <div class="plate" id="plate-el">
+          <div class="plate-inner-ring"></div>
+        </div>
+        <div id="toast-canvas"></div>
+      </div>
 
-        function makeLeafy(id, name, cat, c1, c2) {
-            const icon = `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9">
-                <path d="M4,3 h8 v2 h2 v6 h-2 v2 h-8 v-2 h-2 v-6 h2 z" fill="${c1}"/>
-                <rect x="7" y="4" width="2" height="8" fill="${c2}"/>
-                <rect x="5" y="6" width="2" height="2" fill="${c2}"/>
-                <rect x="9" y="8" width="2" height="2" fill="${c2}"/>
-            </svg>`;
-            const layer = `<g>
-                <path d="M16,20 h32 v3 h3 v18 h-3 v3 h-32 v-3 h-3 v-18 h3 z" fill="${c1}"/>
-                <rect x="20" y="24" width="24" height="2" fill="${c2}"/>
-                <rect x="22" y="34" width="20" height="2" fill="${c2}"/>
-            </g>`;
-            return { id, name, cat, icon, layer };
-        }
+      <div class="hint-text" id="layer-count">💡 Քաշիր միջուկները ափսեի վրա կամ շարժիր արդեն դրվածները</div>
+      <div class="selected-pills" id="selected-pills"></div>
 
-        // ============================================================
-        // 3. 100 ՅՈՒՐԱՀԱՏՈՒԿ ՊԻՔՍԵԼԱՅԻՆ ՄԻՋՈՒԿՆԵՐ (6 ԿԱՏԵԳՈՐԻԱ)
-        // ============================================================
-        const toppings = [
-            // --- 1. Բանջարեղեն և Կանաչեղեն (20 հատ) ---
-            {
-                id: 'avocado_slices', name: 'Ավոկադոյի շերտեր', cat: 'veg',
-                icon: `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9"><path d="M6,2 h4 v2 h2 v8 h-2 v2 h-4 v-2 h-2 v-8 h2 z" fill="#55a630"/><rect x="6" y="4" width="4" height="8" fill="#bfd200"/><rect x="7" y="8" width="2" height="3" fill="#7f4f24"/></svg>`,
-                layer: `<g><rect x="19" y="22" width="10" height="7" fill="#55a630"/><rect x="21" y="23" width="6" height="5" fill="#bfd200"/><rect x="35" y="27" width="10" height="7" fill="#55a630"/><rect x="37" y="28" width="6" height="5" fill="#bfd200"/><rect x="22" y="34" width="10" height="7" fill="#55a630"/><rect x="24" y="35" width="6" height="5" fill="#bfd200"/></g>`
-            },
-            makeSpread('guacamole', 'Տրորած ավոկադո', 'veg', '#8ac926', '#bfd200', '#55a630', false),
-            makeSlices('tomato_slices', 'Լոլիկի շերտեր', 'veg', '#e63946', '#ff758f', '#ffe5ec'),
-            makeBerries('cherry_tomatoes', 'Չերի լոլիկներ', 'veg', '#ff2a2a', '#ff9999', '#38b000'),
-            makeSlices('cucumber', 'Վարունգ', 'veg', '#38b000', '#ccff33', '#ffffff'),
-            makeSlices('pickles', 'Թթու վարունգ', 'veg', '#4f772d', '#90a955', '#31572c'),
-            makeLeafy('lettuce', 'Հազարի տերև', 'veg', '#70e000', '#ccff33'),
-            makeLeafy('arugula', 'Ռուկոլա', 'veg', '#2b9348', '#55a630'),
-            makeLeafy('spinach', 'Սպանախ', 'veg', '#1b4332', '#40916c'),
-            makeSlices('red_onion', 'Կարմիր սոխ', 'veg', '#9d4edd', '#f3d5ff', '#7b2cbf'),
-            makeBerries('green_onion', 'Կանաչ սոխ', 'veg', '#38b000', '#ccff33'),
-            makeSlices('red_pepper', 'Կարմիր պղպեղ', 'veg', '#d90429', '#ef233c'),
-            makeSlices('yellow_pepper', 'Դեղին պղպեղ', 'veg', '#ffb703', '#ffe66d'),
-            makeSlices('jalapeno', 'Հալապենյո կծու պղպեղ', 'veg', '#2d6a4f', '#95d5b2', '#1b4332'),
-            makeSlices('black_olives', 'Սև ձիթապտուղ', 'veg', '#1e0a14', '#ffffff'),
-            makeSlices('green_olives', 'Կանաչ ձիթապտուղ', 'veg', '#80b918', '#e63946'),
-            {
-                id: 'mushrooms', name: 'Տապակած սունկ', cat: 'veg',
-                icon: `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9"><path d="M4,4 h8 v2 h2 v3 h-12 v-3 h2 z" fill="#b08968"/><rect x="6" y="9" width="4" height="4" fill="#ede0d4"/></svg>`,
-                layer: `<g><g transform="translate(19,21)"><rect x="2" y="0" width="8" height="4" fill="#b08968"/><rect x="4" y="4" width="4" height="4" fill="#ede0d4"/></g><g transform="translate(36,33)"><rect x="2" y="0" width="8" height="4" fill="#9c6644"/><rect x="4" y="4" width="4" height="4" fill="#ede0d4"/></g></g>`
-            },
-            makeBerries('sweet_corn', 'Եգիպտացորեն', 'veg', '#ffd60a', '#fff3b0'),
-            makeSlices('radish', 'Բողկ', 'veg', '#ff2e93', '#ffffff', '#ff85c2'),
-            makeLeafy('fresh_basil', 'Կանաչ ռեհան', 'veg', '#007f5f', '#55a630'),
+      <div class="preview-controls">
+        <button class="btn btn-ghost" onclick="undoTopping()">↩️ Հետ քայլ</button>
+        <button class="btn btn-ghost" onclick="clearToast()">🗑️ Սկսել նորից</button>
+      </div>
 
-            // --- 2. Պանիրներ (15 հատ) ---
-            makeSpread('cream_cheese', 'Կրեմ-պանիր Ֆիլադելֆիա', 'cheese', '#ffffff', '#fff5fa', '#e5dce0'),
-            makeSpread('cheddar', 'Չեդեր պանիր', 'cheese', '#ff9f1c', '#ffbf69', '#e85d04'),
-            makeSlices('mozzarella', 'Մոցարելա', 'cheese', '#fffcf2', '#ffffff', '#f2e9e4'),
-            {
-                id: 'burrata', name: 'Բուրատա', cat: 'cheese',
-                icon: `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9"><path d="M5,3 h6 v2 h3 v6 h-2 v2 h-8 v-2 h-2 v-6 h3 z" fill="#ffffff" stroke="#e5dce0" stroke-width="0.6"/><rect x="6" y="6" width="4" height="3" fill="#fff3b0"/></svg>`,
-                layer: `<g><path d="M23,22 h18 v2 h4 v16 h-4 v2 h-18 v-2 h-4 v-16 h4 z" fill="#ffffff"/><rect x="27" y="27" width="10" height="8" fill="#fff3b0"/></g>`
-            },
-            makeBerries('parmesan', 'Պարմեզան', 'cheese', '#ffe66d', '#fff8d6'),
-            makeSpread('gouda', 'Գաուդա պանիր', 'cheese', '#ffd166', '#ffe8a3', '#f4a261'),
-            makeSlices('blue_cheese', 'Կապույտ պանիր Դորբլյու', 'cheese', '#f8f9fa', '#4cc9f0', '#3a86ff'),
-            makeSlices('brie_cheese', 'Բրի պանիր', 'cheese', '#fff8e7', '#ffffff', '#e6ccb2'),
-            makeBerries('feta_cubes', 'Ֆետա պանիր', 'cheese', '#ffffff', '#f1faee'),
-            makeSlices('suluguni', 'Սուլուգունի', 'cheese', '#fff3b0', '#ffffff'),
-            makeSlices('lori_cheese', 'Լոռի պանիր', 'cheese', '#faedcd', '#fefae0', '#d4a373'),
-            makeSpread('ricotta', 'Ռիկոտա', 'cheese', '#fefae0', '#ffffff', '#e9edc9'),
-            makeSpread('melted_cheese', 'Հալած պանիր', 'cheese', '#ffd60a', '#ffee99', '#fca311', true),
-            makeSlices('goat_cheese', 'Այծի պանիր', 'cheese', '#ffffff', '#ffe6f2'),
-            {
-                id: 'cheese_sticks', name: 'Պանրի ձողիկներ', cat: 'cheese',
-                icon: `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9"><rect x="3" y="4" width="10" height="3" fill="#ffb703"/><rect x="3" y="9" width="10" height="3" fill="#ffd166"/></svg>`,
-                layer: `<g><rect x="19" y="24" width="26" height="4" fill="#ffb703"/><rect x="19" y="34" width="26" height="4" fill="#ffd166"/></g>`
-            },
+      <button class="btn btn-primary finish-btn" onclick="finishToast()">
+        💖 Պատրաստ է — Համտեսել
+      </button>
+    </section>
 
-            // --- 3. Երշիկներ, Միս, Ձու և Ծովամթերք (20 հատ) ---
-            makeSlices('boiled_sausage', 'Բժշկական երշիկ', 'meat', '#ff8fa3', '#ffb3c1', '#ffccd5'),
-            makeSlices('pepperoni', 'Պեպերոնի', 'meat', '#c1121f', '#e63946', '#ffccd5'),
-            makeSlices('salami', 'Սալյամի', 'meat', '#800f2f', '#a4133c', '#fff0f3'),
-            makeSpread('ham', 'Խոզապուխտ Վետչինա', 'meat', '#ff758f', '#ffb3c1', '#ff4d6d'),
-            {
-                id: 'crispy_bacon', name: 'Խրթխրթան բեկոն', cat: 'meat',
-                icon: `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9"><path d="M3,5 h4 v1 h4 v-1 h2 v6 h-2 v1 h-4 v-1 h-4 z" fill="#d90429"/><rect x="4" y="7" width="8" height="2" fill="#ffccd5"/></svg>`,
-                layer: `<g><rect x="19" y="24" width="26" height="5" fill="#d90429"/><rect x="21" y="26" width="22" height="1" fill="#ffccd5"/><rect x="19" y="34" width="26" height="5" fill="#d90429"/><rect x="21" y="36" width="22" height="1" fill="#ffccd5"/></g>`
-            },
-            makeSpread('prosciutto', 'Պրոշուտո', 'meat', '#e05780', '#ff9ebb', '#b5179e'),
-            makeSlices('grilled_chicken', 'Հավի կրծքամիս', 'meat', '#f4a261', '#ffe8d6', '#e76f51'),
-            makeBerries('nuggets', 'Նագեթսներ', 'meat', '#e09f3e', '#ffd166'),
-            makeSlices('turkey', 'Հնդկահավի ֆիլե', 'meat', '#ffccd5', '#fff0f3'),
-            makeSpread('roast_beef', 'Տավարի ռոստբիֆ', 'meat', '#7f4f24', '#a4133c', '#582f0e'),
-            {
-                id: 'hotdog', name: 'Նրբերշիկ', cat: 'meat',
-                icon: `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9"><rect x="2" y="6" width="12" height="4" fill="#ff5d8f"/><rect x="3" y="7" width="10" height="1" fill="#ffacc5"/></svg>`,
-                layer: `<g><rect x="18" y="24" width="28" height="5" fill="#ff5d8f"/><rect x="18" y="34" width="28" height="5" fill="#ff5d8f"/></g>`
-            },
-            makeSlices('basturma', 'Ապուխտ Բաստուրմա', 'meat', '#9b2226', '#ca6702', '#540b0e'),
-            makeSlices('sujuk', 'Սուջուխ', 'meat', '#6a040f', '#9d0208', '#ffba08'),
-            makeSpread('smoked_salmon', 'Ապխտած սաղմոն', 'meat', '#ff758f', '#ffe5ec', '#ff4d6d'),
-            makeSpread('tuna', 'Թունա ձուկ', 'meat', '#f28482', '#f7ede2', '#e5989b'),
-            {
-                id: 'shrimp', name: 'Տապակած ծովախեցգետին', cat: 'meat',
-                icon: `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9"><path d="M5,4 h6 v3 h-2 v4 h-4 v-3 h2 v-2 h-2 z" fill="#ff7096"/><rect x="6" y="5" width="3" height="1" fill="#ffffff"/></svg>`,
-                layer: `<g><rect x="21" y="23" width="7" height="7" fill="#ff7096"/><rect x="36" y="34" width="7" height="7" fill="#ff477e"/></g>`
-            },
-            makeBerries('red_caviar', 'Կարմիր խավիար', 'meat', '#ff4d00', '#ffbe0b'),
-            makeSlices('boiled_egg', 'Խաշած ձու', 'meat', '#ffffff', '#ffb703'),
-            {
-                id: 'fried_egg', name: 'Ձվածեղ Աչք-ձու', cat: 'meat',
-                icon: `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9"><path d="M5,3 h6 v2 h2 v6 h-2 v2 h-6 v-2 h-2 v-6 h2 z" fill="#ffffff" stroke="#e5dce0" stroke-width="0.5"/><rect x="6" y="6" width="4" height="4" fill="#ffb703"/></svg>`,
-                layer: `<g><path d="M23,21 h18 v2 h4 v16 h-4 v2 h-18 v-2 h-4 v-16 h4 z" fill="#ffffff"/><rect x="28" y="27" width="8" height="8" fill="#ffb703"/><rect x="29" y="28" width="2" height="2" fill="#fff3b0"/></g>`
-            },
-            {
-                id: 'poached_egg', name: 'Պաշոտ ձու', cat: 'meat',
-                icon: `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9"><path d="M4,4 h8 v8 h-8 z" fill="#fffcf2"/><rect x="6" y="6" width="4" height="4" fill="#ff9f1c"/></svg>`,
-                layer: `<g><rect x="22" y="22" width="20" height="20" fill="#fffcf2"/><rect x="28" y="28" width="8" height="8" fill="#ff9f1c"/></g>`
-            },
+    <!-- Աջ վահանակ՝ Ռեալիստիկ Հացեր և 100 Միջուկ -->
+    <section class="builder-card">
+      <div class="section-title">
+        <span>1. Ընտրիր հացի տեսակը</span>
+        <span class="badge">8 ռեալիստիկ հաց</span>
+      </div>
+      <div class="bread-grid" id="bread-grid"></div>
 
-            // --- 4. Սոուսներ և Կրեմ-մածուկներ (15 հատ) ---
-            makeSpread('mayo', 'Մայոնեզ', 'sauce', '#fffcf2', '#ffffff', '#f5ebe0', true),
-            makeSpread('ketchup', 'Կետչուպ', 'sauce', '#d90429', '#ff4d6d', '#8d0801', true),
-            makeSpread('mustard', 'Մանանեխ', 'sauce', '#ffb703', '#ffe66d', '#fb8500', true),
-            makeSpread('pesto', 'Պեստո սոուս', 'sauce', '#38b000', '#70e000', '#007200'),
-            makeSpread('cheese_sauce', 'Պանրային սոուս', 'sauce', '#ffd166', '#fff3b0', '#f4a261', true),
-            makeSpread('bbq_sauce', 'Բարբեքյու սոուս', 'sauce', '#590d22', '#800f2f', '#2b050f', true),
-            makeSpread('garlic_sauce', 'Սխտորի սոուս', 'sauce', '#f8f9fa', '#ffffff', '#dee2e6'),
-            makeSpread('sweet_chili', 'Քաղցր չիլի սոուս', 'sauce', '#ff4d00', '#ff9e00', '#d00000', true),
-            makeSpread('sriracha', 'Սրիրաչա կծու սոուս', 'sauce', '#e63946', '#ff758f', '#9b2226', true),
-            makeSpread('teriyaki', 'Տերիյակի սոուս', 'sauce', '#3d1e0d', '#6f3718', '#1e0a14', true),
-            makeSpread('balsamic', 'Բալզամիկ սոուս', 'sauce', '#2b0918', '#590d22', '#1e0a14', true),
-            makeSpread('hummus', 'Հումուս', 'sauce', '#e9c46a', '#faedcd', '#d4a373'),
-            makeSpread('butter', 'Կարագ', 'sauce', '#ffe66d', '#fff8d6', '#ffd166'),
-            makeSpread('sour_cream', 'Թթվասեր', 'sauce', '#ffffff', '#f8f9fa', '#e9ecef'),
-            makeSpread('ranch', 'Ռանչ սոուս', 'sauce', '#f1faee', '#ffffff', '#a8dadc'),
+      <div class="section-title">
+        <span>2. Քաշիր կամ սեղմիր միջուկները</span>
+        <span class="badge">100 միջուկ</span>
+      </div>
 
-            // --- 5. Մրգեր և Հատապտուղներ (15 հատ) ---
-            {
-                id: 'strawberry', name: 'Ելակ', cat: 'fruit',
-                icon: `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9"><path d="M5,4 h6 v1 h2 v4 h-2 v3 h-2 v2 h-2 v-2 h-2 v-3 h-2 v-4 h2 z" fill="#ff2a6d"/><rect x="6" y="2" width="4" height="2" fill="#38b000"/><rect x="6" y="6" width="1" height="1" fill="#ffffff"/></svg>`,
-                layer: `<g><g transform="translate(18,20)"><path d="M3,2 h6 v5 h-2 v2 h-2 v-2 h-2 z" fill="#ff2a6d"/><rect x="4" y="1" width="4" height="1" fill="#38b000"/></g><g transform="translate(35,20)"><path d="M3,2 h6 v5 h-2 v2 h-2 v-2 h-2 z" fill="#ff2a6d"/><rect x="4" y="1" width="4" height="1" fill="#38b000"/></g><g transform="translate(26,32)"><path d="M3,2 h6 v5 h-2 v2 h-2 v-2 h-2 z" fill="#ff1a66"/><rect x="4" y="1" width="4" height="1" fill="#38b000"/></g></g>`
-            },
-            makeSlices('banana', 'Բանան', 'fruit', '#ffe66d', '#fff8d6', '#e0b84c'),
-            makeBerries('blueberry', 'Հապալաս', 'fruit', '#4361ee', '#90e0ef'),
-            makeBerries('raspberry', 'Ազնվամորի', 'fruit', '#ff2a6d', '#ffb3c6', '#38b000'),
-            makeBerries('cherry', 'Բալ', 'fruit', '#d90429', '#ffffff', '#38b000'),
-            makeSlices('peach', 'Դեղձ', 'fruit', '#ff9f1c', '#ffbf69'),
-            makeSlices('kiwi', 'Կիվի', 'fruit', '#8ac926', '#e9f5db', '#1e0a14'),
-            makeSlices('mango', 'Մանգո', 'fruit', '#ffb703', '#ffd60a'),
-            makeSlices('pineapple', 'Արքայախնձոր', 'fruit', '#ffd60a', '#fff3b0', '#e09f3e'),
-            makeSlices('fig', 'Թուզ', 'fruit', '#7209b7', '#ff4d6d', '#ffe5ec'),
-            makeBerries('pomegranate', 'Նուռ', 'fruit', '#c1121f', '#ffccd5'),
-            makeBerries('grapes', 'Խաղող', 'fruit', '#80b918', '#dddf00'),
-            makeSlices('orange', 'Նարինջ', 'fruit', '#fb8500', '#ffb703', '#ffffff'),
-            makeSlices('green_apple', 'Կանաչ խնձոր', 'fruit', '#70e000', '#f8f9fa'),
-            makeSlices('watermelon', 'Ձմերուկ', 'fruit', '#38b000', '#ff2e63', '#1e0a14'),
+      <div class="toolbar">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" placeholder="Որոնել միջուկ (օր.՝ ավոկադո, պանիր, երշիկ, նուտելլա)..." oninput="renderToppings()" />
+        </div>
+        <div class="tabs" id="category-tabs"></div>
+      </div>
 
-            // --- 6. Քաղցրավենիք և Դեկոր (15 հատ) ---
-            makeSpread('nutella', 'Նուտելլա', 'sweet', '#592813', '#8c482b', '#3b1809'),
-            makeSpread('white_choco', 'Սպիտակ շոկոլադ', 'sweet', '#fff8e7', '#ffffff', '#f5deb3'),
-            makeSpread('strawberry_jam', 'Ելակի ջեմ', 'sweet', '#ff1a75', '#ff99c2', '#c9184a', true),
-            makeSpread('peanut_butter', 'Գետնանուշի կարագ', 'sweet', '#d48435', '#f2b36d', '#9c5a1c'),
-            makeSpread('whipped_cream', 'Հարած սերուցք', 'sweet', '#ffffff', '#ffe6f2', '#ffb8dc'),
-            makeSpread('honey', 'Մեղր', 'sweet', '#ffbe0b', '#ffe66d', '#fb8500', true),
-            makeSpread('caramel', 'Կարամել', 'sweet', '#d97706', '#fbbf24', '#92400e', true),
-            makeBerries('marshmallows', 'Մարշմելոու', 'sweet', '#ff99ce', '#ffffff'),
-            {
-                id: 'pink_macaron', name: 'Մակարոն թխվածքաբլիթ', cat: 'sweet',
-                icon: `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9"><rect x="3" y="4" width="10" height="3" fill="#ff2e93"/><rect x="4" y="7" width="8" height="2" fill="#ffffff"/><rect x="3" y="9" width="10" height="3" fill="#ff2e93"/></svg>`,
-                layer: `<g transform="translate(24,24)"><rect x="2" y="1" width="12" height="4" fill="#ff2e93"/><rect x="3" y="5" width="10" height="2" fill="#ffffff"/><rect x="2" y="7" width="12" height="4" fill="#ff2e93"/></g>`
-            },
-            makeSlices('oreo', 'Օրեո թխվածքաբլիթ', 'sweet', '#1e0a14', '#ffffff', '#4a4e69'),
-            {
-                id: 'sprinkles', name: 'Գունավոր շաքարահատիկներ', cat: 'sweet',
-                icon: `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9"><rect x="3" y="4" width="3" height="2" fill="#ff2e93"/><rect x="9" y="4" width="3" height="2" fill="#3a86ff"/><rect x="6" y="8" width="3" height="2" fill="#ffbe0b"/><rect x="3" y="11" width="3" height="2" fill="#38b000"/><rect x="10" y="11" width="3" height="2" fill="#ff5cad"/></svg>`,
-                layer: `<g><rect x="21" y="24" width="3" height="2" fill="#ff2e93"/><rect x="39" y="24" width="3" height="2" fill="#3a86ff"/><rect x="30" y="29" width="3" height="2" fill="#ffbe0b"/><rect x="22" y="37" width="3" height="2" fill="#38b000"/><rect x="39" y="37" width="3" height="2" fill="#ff5cad"/></g>`
-            },
-            {
-                id: 'heart_choco', name: 'Սրտաձև շոկոլադ', cat: 'sweet',
-                icon: `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9"><path d="M4,4 h2 v1 h1 v1 h2 v-1 h1 v-1 h2 v3 h-1 v2 h-2 v2 h-2 v-2 h-2 v-2 h-1 z" fill="#592813"/></svg>`,
-                layer: `<g><path d="M26,25 h3 v1 h1 v1 h2 v-1 h1 v-1 h3 v4 h-2 v2 h-2 v2 h-2 v-2 h-2 v-2 h-2 z" fill="#592813"/><rect x="27" y="26" width="1" height="1" fill="#ff85c2"/></g>`
-            },
-            {
-                id: 'pink_bow', name: 'Շաքարե վարդագույն բանտիկ', cat: 'sweet',
-                icon: `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9"><rect x="3" y="5" width="3" height="6" fill="#ff2e93"/><rect x="10" y="5" width="3" height="6" fill="#ff2e93"/><rect x="6" y="6" width="4" height="4" fill="#ff85c2"/></svg>`,
-                layer: `<g transform="translate(24,15)"><rect x="2" y="3" width="4" height="6" fill="#ff2e93"/><rect x="10" y="3" width="4" height="6" fill="#ff2e93"/><rect x="6" y="4" width="4" height="4" fill="#ff99ce"/><rect x="5" y="8" width="2" height="4" fill="#ff2e93"/><rect x="9" y="8" width="2" height="4" fill="#ff2e93"/></g>`
-            },
-            {
-                id: 'ice_cream', name: 'Պաղպաղակի գնդիկ', cat: 'sweet',
-                icon: `<svg viewBox="0 0 16 16" shape-rendering="crispEdges" class="w-9 h-9"><path d="M5,4 h6 v2 h2 v5 h-10 v-5 h2 z" fill="#ff85c2"/><rect x="6" y="5" width="3" height="2" fill="#ffffff"/></svg>`,
-                layer: `<g><path d="M25,22 h14 v2 h3 v10 h-20 v-10 h3 z" fill="#ff85c2"/><rect x="27" y="24" width="5" height="3" fill="#ffffff"/></g>`
-            },
-            makeBerries('coconut_flakes', 'Կոկոսի փաթիլներ', 'sweet', '#ffffff', '#ffe6f2')
-        ];
+      <div class="toppings-grid" id="toppings-grid"></div>
+    </section>
+  </main>
 
-        // ============================================================
-        // 4. ՀԱՎԵԼՎԱԾԻ ՎԻՃԱԿ
-        // ============================================================
-        let currentBread = breads[0];
-        let selectedToppings = [];
-        let activeCategory = 'all';
-        let searchQuery = '';
+  <!-- Ավարտի պատուհան -->
+  <div class="modal-backdrop" id="result-modal">
+    <div class="modal-box">
+      <div style="font-size: 28px; letter-spacing: 4px;">⭐⭐⭐⭐⭐</div>
+      <h2>Սա ուղղակի շա՜տ համեղ է 💖</h2>
+      <p id="result-message"></p>
+      <div class="recipe-summary" id="recipe-summary"></div>
+      <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="closeModal()">
+        ✨ Պատրաստել ևս մեկը
+      </button>
+    </div>
+  </div>
 
-        const mascotQuotes = [
-            "♥ Մմմ՜, շատ համեղ է",
-            "✦ Ինչ սիրուն շերտ է",
-            "♥ Ավելացրու էլի միջուկ",
-            "★ Այս տոստը սուպեր է",
-            "♥ Ինչ ախորժելի տեսք ունի"
-        ];
+  <script>
+    // 8 ռեալիստիկ ծավալային հաց
+    const BREADS = [
+      { id: 'brioche', name: 'Դասական բրիոշ', crust1: '#c96f28', crust2: '#8a4211', crumb1: '#fff4d4', crumb2: '#f2cf8d' },
+      { id: 'strawberry', name: 'Ելակի վարդագույն', crust1: '#d9487c', crust2: '#9e2451', crumb1: '#ffe6f0', crumb2: '#ffb8d4' },
+      { id: 'wholegrain', name: 'Հացահատիկային', crust1: '#78441e', crust2: '#4d290f', crumb1: '#cfa06e', crumb2: '#a67646', seeds: true },
+      { id: 'milk', name: 'Նուրբ կաթնային', crust1: '#d99852', crust2: '#9c6227', crumb1: '#ffffff', crumb2: '#f5ebd6' },
+      { id: 'choco', name: 'Շոկոլադե բրիոշ', crust1: '#422014', crust2: '#240f08', crumb1: '#78432f', crumb2: '#52291a' },
+      { id: 'matcha', name: 'Կանաչ մատչա', crust1: '#597d38', crust2: '#395420', crumb1: '#dcf0c2', crumb2: '#b3d48a' },
+      { id: 'heart', name: 'Սրտաձև տոստ', crust1: '#d6457a', crust2: '#94214b', crumb1: '#ffd9e8', crumb2: '#ffaccb', shape: 'heart' },
+      { id: 'croissant', name: 'Խրթխրթան կրուասան', crust1: '#cf7425', crust2: '#87410b', crumb1: '#ffd584', crumb2: '#eba849', shape: 'croissant' }
+    ];
 
-        // ============================================================
-        // 5. ՊԻՔՍԵԼԱՅԻՆ ՀԱՑԻ SVG ԳԵՆԵՐԱՑԻԱ
-        // ============================================================
-        function buildBreadPixelSvg(bread, sizeClass = "w-52 h-52 sm:w-60 sm:h-60") {
-            if (bread.shape === 'heart') {
-                return `<svg viewBox="0 0 64 64" shape-rendering="crispEdges" class="${sizeClass}">
-                    <path d="M18,14 h8 v2 h4 v2 h4 v-2 h4 v-2 h8 v2 h4 v4 h2 v10 h-2 v6 h-4 v4 h-4 v4 h-4 v4 h-4 v2 h-4 v-2 h-4 v-4 h-4 v-4 h-4 v-4 h-4 v-6 h-2 v-10 h2 v-4 h4 z" fill="#1e0a14"/>
-                    <path d="M19,16 h6 v2 h4 v2 h6 v-2 h4 v-2 h6 v2 h3 v3 h2 v8 h-2 v5 h-4 v4 h-4 v4 h-4 v4 h-2 v1 h-2 v-1 h-2 v-4 h-4 v-4 h-4 v-4 h-4 v-5 h-2 v-8 h2 v-3 h3 z" fill="${bread.crust}"/>
-                    <path d="M20,18 h5 v2 h4 v2 h6 v-2 h4 v-2 h5 v2 h2 v2 h2 v6 h-2 v4 h-4 v4 h-4 v4 h-4 v3 h-2 v-3 h-4 v-4 h-4 v-4 h-4 v-4 h-2 v-6 h2 v-2 h2 z" fill="${bread.crumb}"/>
-                </svg>`;
-            }
-            if (bread.shape === 'croissant') {
-                return `<svg viewBox="0 0 64 64" shape-rendering="crispEdges" class="${sizeClass}">
-                    <path d="M22,16 h20 v2 h6 v4 h4 v6 h2 v12 h-4 v4 h-6 v-2 h-24 v2 h-6 v-4 h-4 v-12 h2 v-6 h4 v-4 h6 z" fill="#1e0a14"/>
-                    <path d="M22,18 h20 v2 h6 v4 h4 v14 h-4 v2 h-4 v-2 h-24 v2 h-4 v-2 h-4 v-14 h4 v-4 h6 z" fill="${bread.crust}"/>
-                    <path d="M24,20 h16 v2 h5 v4 h3 v10 h-4 v-2 h-24 v2 h-4 v-10 h3 v-4 h5 z" fill="${bread.crumb}"/>
-                </svg>`;
-            }
-            if (bread.shape === 'baguette') {
-                return `<svg viewBox="0 0 64 64" shape-rendering="crispEdges" class="${sizeClass}">
-                    <path d="M14,20 h36 v4 h4 v16 h-4 v4 h-36 v-4 h-4 v-16 h4 z" fill="#1e0a14"/>
-                    <path d="M14,22 h36 v4 h2 v12 h-2 v4 h-36 v-4 h-2 v-12 h2 z" fill="${bread.crust}"/>
-                    <path d="M16,24 h32 v16 h-32 z" fill="${bread.crumb}"/>
-                </svg>`;
-            }
-            const extraDots = bread.shape === 'grain'
-                ? `<g fill="${bread.dot}"><rect x="21" y="22" width="2" height="2"/><rect x="30" y="25" width="2" height="2"/><rect x="39" y="23" width="2" height="2"/><rect x="24" y="34" width="2" height="2"/><rect x="35" y="38" width="2" height="2"/></g>`
-                : `<g fill="${bread.dot}"><rect x="22" y="24" width="2" height="2"/><rect x="38" y="26" width="2" height="2"/><rect x="28" y="36" width="2" height="2"/></g>`;
-            return `<svg viewBox="0 0 64 64" shape-rendering="crispEdges" class="${sizeClass}">
-                <path d="M16,12 h32 v2 h4 v4 h2 v8 h-4 v22 h-2 v2 h-32 v-2 h-2 v-22 h-4 v-8 h2 v-4 h4 z" fill="#1e0a14"/>
-                <path d="M16,14 h32 v2 h4 v8 h-4 v24 h-32 v-24 h-4 v-8 h4 z" fill="${bread.crust}"/>
-                <path d="M18,17 h28 v2 h3 v4 h-3 v22 h-28 v-22 h-3 v-4 h3 z" fill="${bread.crumb}"/>
-                ${extraDots}
-            </svg>`;
-        }
+    function getRealisticBreadSVG(b, toasted = false) {
+      const uid = b.id + (toasted ? '_t' : '_r');
+      const toastOverlay = toasted ? `
+        <g opacity="0.45">
+          <path d="M55 58 Q100 48 145 58" stroke="#6e2c07" stroke-width="10" stroke-linecap="round" fill="none" filter="blur(2px)"/>
+          <path d="M52 95 Q100 85 148 95" stroke="#6e2c07" stroke-width="11" stroke-linecap="round" fill="none" filter="blur(2px)"/>
+          <path d="M56 132 Q100 122 144 132" stroke="#6e2c07" stroke-width="10" stroke-linecap="round" fill="none" filter="blur(2px)"/>
+        </g>` : '';
 
-        // ============================================================
-        // 6. ԷՋԻ ՆԿԱՐԱԳՐՈՒՄ (RENDER)
-        // ============================================================
-        function renderBreads() {
-            const list = document.getElementById('bread-list');
-            list.innerHTML = breads.map(b => {
-                const isSelected = b.id === currentBread.id;
-                return `
-                <button onclick="chooseBread('${b.id}', event)" 
-                        class="item-card ${isSelected ? 'selected' : ''} p-2 flex items-center gap-2 text-left cursor-pointer w-full">
-                    <div class="shrink-0 bg-[#fff5fa] rounded-lg p-1 border border-[#ffd6eb]">
-                        ${buildBreadPixelSvg(b, 'w-9 h-9')}
-                    </div>
-                    <div class="min-w-0 flex-1">
-                        <div class="text-xs font-extrabold text-[#1e0a14] truncate">${b.name}</div>
-                        <div class="text-[10px] font-bold text-[#ff2e93]">${b.tag}</div>
-                    </div>
-                </button>`;
-            }).join('');
-        }
+      if (b.shape === 'heart') {
+        return `<svg viewBox="0 0 200 200" width="100%" height="100%">
+          <defs>
+            <linearGradient id="cr_${uid}" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="${b.crust1}"/><stop offset="100%" stop-color="${b.crust2}"/>
+            </linearGradient>
+            <radialGradient id="cm_${uid}" cx="40%" cy="35%" r="65%">
+              <stop offset="0%" stop-color="${b.crumb1}"/><stop offset="100%" stop-color="${b.crumb2}"/>
+            </radialGradient>
+          </defs>
+          <path d="M100 180 C34 132 12 88 12 58 C12 31 34 14 60 14 C78 14 92 24 100 38 C108 24 122 14 140 14 C166 14 188 31 188 58 C188 88 166 132 100 180 Z" fill="url(#cr_${uid})"/>
+          <path d="M100 166 C43 122 25 85 25 59 C25 39 42 25 62 25 C78 25 91 35 100 48 C109 35 122 25 138 25 C158 25 175 39 175 59 C175 85 157 122 100 166 Z" fill="url(#cm_${uid})"/>
+          ${toastOverlay}
+        </svg>`;
+      }
 
-        function renderToppings() {
-            const grid = document.getElementById('toppings-grid');
-            const filtered = toppings.filter(t => {
-                const matchesCat = activeCategory === 'all' || t.cat === activeCategory;
-                const matchesQuery = !searchQuery || t.name.toLowerCase().includes(searchQuery.toLowerCase());
-                return matchesCat && matchesQuery;
-            });
+      if (b.shape === 'croissant') {
+        return `<svg viewBox="0 0 200 200" width="100%" height="100%">
+          <defs>
+            <linearGradient id="cr_${uid}" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="${b.crust1}"/><stop offset="100%" stop-color="${b.crust2}"/>
+            </linearGradient>
+            <radialGradient id="cm_${uid}" cx="45%" cy="35%" r="60%">
+              <stop offset="0%" stop-color="${b.crumb1}"/><stop offset="100%" stop-color="${b.crumb2}"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="100" cy="105" rx="86" ry="54" fill="url(#cr_${uid})"/>
+          <ellipse cx="100" cy="102" rx="75" ry="43" fill="url(#cm_${uid})"/>
+          <path d="M56 66 Q76 104 56 140 M100 59 Q116 104 100 146 M144 66 Q128 104 144 140" stroke="${b.crust2}" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.65"/>
+          ${toastOverlay}
+        </svg>`;
+      }
 
-            document.getElementById('total-count-badge').textContent = filtered.length;
+      return `<svg viewBox="0 0 200 200" width="100%" height="100%">
+        <defs>
+          <linearGradient id="cr_${uid}" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="${b.crust1}"/><stop offset="100%" stop-color="${b.crust2}"/>
+          </linearGradient>
+          <radialGradient id="cm_${uid}" cx="40%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="${b.crumb1}"/><stop offset="100%" stop-color="${b.crumb2}"/>
+          </radialGradient>
+        </defs>
+        <path d="M35 74 C21 74 15 62 15 48 C15 25 45 15 100 15 C155 15 185 25 185 48 C185 62 179 74 165 74 L165 167 C165 178 156 185 145 185 L55 185 C44 185 35 178 35 167 Z" fill="url(#cr_${uid})"/>
+        <path d="M46 72 C34 72 28 62 28 50 C28 34 52 26 100 26 C148 26 172 34 172 50 C172 62 166 72 154 72 L154 162 C154 170 148 174 140 174 L60 174 C52 174 46 170 46 162 Z" fill="url(#cm_${uid})"/>
+        <g fill="${b.crust1}" opacity="0.16">
+          <circle cx="66" cy="56" r="3.5"/><circle cx="118" cy="52" r="4"/><circle cx="88" cy="84" r="3"/>
+          <circle cx="132" cy="96" r="4.5"/><circle cx="72" cy="126" r="4"/><circle cx="115" cy="142" r="3.5"/>
+          <circle cx="94" cy="112" r="2.8"/><circle cx="140" cy="64" r="2.5"/>
+        </g>
+        ${b.seeds ? `<g fill="#4f290e" opacity="0.75"><ellipse cx="70" cy="60" rx="3.5" ry="2"/><ellipse cx="125" cy="55" rx="3.5" ry="2"/><ellipse cx="95" cy="95" rx="3.5" ry="2"/><ellipse cx="65" cy="130" rx="3.5" ry="2"/><ellipse cx="130" cy="135" rx="3.5" ry="2"/></g>` : ''}
+        ${toastOverlay}
+      </svg>`;
+    }
 
-            if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-8 text-xs font-bold text-[#b87a99]">Այս անվանումով միջուկ չգտնվեց 🎀</div>`;
-                return;
-            }
+    // Կատեգորիաներ և 100 ռեալիստիկ միջուկ
+    const CATEGORIES = [
+      { id: 'all', label: '✨ Բոլորը (100)' },
+      { id: 'veggies', label: '🥑 Բանջարեղեն (20)' },
+      { id: 'cheese', label: '🧀 Պանիրներ (15)' },
+      { id: 'meat', label: '🥓 Երշիկ և Միս (20)' },
+      { id: 'sauces', label: '🥫 Սոուսներ (15)' },
+      { id: 'fruits', label: '🍓 Մրգեր (15)' },
+      { id: 'sweets', label: '🎀 Քաղցրավենիք (15)' }
+    ];
 
-            grid.innerHTML = filtered.map(item => `
-                <button onclick="addTopping('${item.id}', event)" 
-                        class="item-card p-2 flex flex-col items-center justify-center text-center cursor-pointer group">
-                    <div class="w-11 h-11 bg-[#fff5fa] rounded-xl flex items-center justify-center mb-1 border border-[#ffe6f2] group-hover:scale-110 transition-transform">
-                        ${item.icon}
-                    </div>
-                    <span class="text-[11px] font-extrabold text-[#1e0a14] leading-tight line-clamp-2">${item.name}</span>
-                    <span class="mt-0.5 text-[9px] font-bold text-[#ff2e93]">+ Ավելացնել</span>
-                </button>
-            `).join('');
-        }
+    const TOPPINGS = [
+      // 1. ԲԱՆՋԱՐԵՂԵՆ ԵՎ ԿԱՆԱՉԵՂԵՆ (20)
+      { id: 'v1', cat: 'veggies', name: 'Ավոկադոյի շերտեր', type: 'avocado', c1: '#3d7a24', c2: '#b8e86b', c3: '#693b1e' },
+      { id: 'v2', cat: 'veggies', name: 'Գուակամոլե մածուկ', type: 'blob', c1: '#95db60', c2: '#5ea32f' },
+      { id: 'v3', cat: 'veggies', name: 'Հասած լոլիկ', type: 'slice_ring', c1: '#e62236', c2: '#ff8591' },
+      { id: 'v4', cat: 'veggies', name: 'Չերի լոլիկներ', type: 'berries', c1: '#eb1e32', c2: '#ff8a96' },
+      { id: 'v5', cat: 'veggies', name: 'Թարմ վարունգ', type: 'slice_ring', c1: '#2e8b43', c2: '#ccf5be' },
+      { id: 'v6', cat: 'veggies', name: 'Թթու վարունգ', type: 'slice_ring', c1: '#587826', c2: '#b8d173' },
+      { id: 'v7', cat: 'veggies', name: 'Խրթխրթան հազար', type: 'leaf', c1: '#65c74c', c2: '#b2f099' },
+      { id: 'v8', cat: 'veggies', name: 'Թարմ ռուկոլա', type: 'leaf', c1: '#317a34', c2: '#5cb860' },
+      { id: 'v9', cat: 'veggies', name: 'Մանկական սպանախ', type: 'leaf', c1: '#245e2a', c2: '#489e51' },
+      { id: 'v10', cat: 'veggies', name: 'Կարմիր սոխի օղակ', type: 'onion', c1: '#8f2462', c2: '#e89cc8' },
+      { id: 'v11', cat: 'veggies', name: 'Կանաչ սոխ', type: 'sprinkles', c1: '#3c9c36', c2: '#8de383' },
+      { id: 'v12', cat: 'veggies', name: 'Կարմիր պղպեղ', type: 'ring', c1: '#e61e30', c2: '#ff7a86' },
+      { id: 'v13', cat: 'veggies', name: 'Դեղին պղպեղ', type: 'ring', c1: '#f5b800', c2: '#ffe680' },
+      { id: 'v14', cat: 'veggies', name: 'Կծու հալապենյո', type: 'slice_ring', c1: '#246b2c', c2: '#9be08f' },
+      { id: 'v15', cat: 'veggies', name: 'Սև ձիթապտուղ', type: 'olives', c1: '#1f1b21', c2: '#524b57' },
+      { id: 'v16', cat: 'veggies', name: 'Կանաչ ձիթապտուղ', type: 'olives', c1: '#82a12b', c2: '#d94436' },
+      { id: 'v17', cat: 'veggies', name: 'Տապակած սունկ', type: 'mushroom', c1: '#a87f5d', c2: '#edd7c5' },
+      { id: 'v18', cat: 'veggies', name: 'Քաղցր եգիպտացորեն', type: 'berries', c1: '#f7c516', c2: '#fff2a6' },
+      { id: 'v19', cat: 'veggies', name: 'Վարդագույն բողկ', type: 'slice_ring', c1: '#e02f6b', c2: '#ffffff' },
+      { id: 'v20', cat: 'veggies', name: 'Թարմ ռեհան', type: 'leaf', c1: '#227d3b', c2: '#64cc80' },
 
-        function renderPlate() {
-            document.getElementById('selected-bread-badge').textContent = `🍞 ${currentBread.name}`;
-            document.getElementById('layer-counter').textContent = selectedToppings.length;
-            document.getElementById('plate-bread-layer').innerHTML = buildBreadPixelSvg(currentBread);
+      // 2. ՊԱՆԻՐՆԵՐ (15)
+      { id: 'c1', cat: 'cheese', name: 'Ֆիլադելֆիա կրեմ', type: 'blob', c1: '#ffffff', c2: '#ebe4e8' },
+      { id: 'c2', cat: 'cheese', name: 'Չեդեր պանիր', type: 'square', c1: '#ffa20d', c2: '#ffd46e' },
+      { id: 'c3', cat: 'cheese', name: 'Մոցարելա գնդիկ', type: 'mozzarella', c1: '#ffffff', c2: '#f2ebdc' },
+      { id: 'c4', cat: 'cheese', name: 'Նուրբ բուրատա', type: 'mozzarella', c1: '#ffffff', c2: '#ffeaf2' },
+      { id: 'c5', cat: 'cheese', name: 'Քերած պարմեզան', type: 'sprinkles', c1: '#ffe494', c2: '#fff6d6' },
+      { id: 'c6', cat: 'cheese', name: 'Գաուդա պանիր', type: 'triangle', c1: '#ffce33', c2: '#db9c12' },
+      { id: 'c7', cat: 'cheese', name: 'Դորբլյու պանիր', type: 'triangle', c1: '#eef3f7', c2: '#467294' },
+      { id: 'c8', cat: 'cheese', name: 'Ֆրանսիական բրի', type: 'triangle', c1: '#fff7e0', c2: '#e3d0a8' },
+      { id: 'c9', cat: 'cheese', name: 'Ֆետա խորանարդիկ', type: 'cubes', c1: '#ffffff', c2: '#e3eaef' },
+      { id: 'c10', cat: 'cheese', name: 'Սուլուգունի', type: 'slice_round', c1: '#fff2c4', c2: '#edd998' },
+      { id: 'c11', cat: 'cheese', name: 'Հայկական լոռի', type: 'cubes', c1: '#fcf8e8', c2: '#e3d9bc' },
+      { id: 'c12', cat: 'cheese', name: 'Նուրբ ռիկոտա', type: 'blob', c1: '#fffbfa', c2: '#f0e4dc' },
+      { id: 'c13', cat: 'cheese', name: 'Հալած սերուցքային', type: 'square', c1: '#ffe375', c2: '#fff3bd' },
+      { id: 'c14', cat: 'cheese', name: 'Այծի պանիր', type: 'slice_round', c1: '#ffffff', c2: '#ded6da' },
+      { id: 'c15', cat: 'cheese', name: 'Պանրի ձողիկներ', type: 'sticks', c1: '#f7b522', c2: '#ffe291' },
 
-            const toppingsLayer = document.getElementById('plate-toppings-layer');
-            const tagsContainer = document.getElementById('added-tags');
-            const statusText = document.getElementById('status-bar-text');
+      // 3. ԵՐՇԻԿՆԵՐ, ՄԻՍ, ՁՈՒ ԵՎ ԾՈՎԱՄԹԵՐՔ (20)
+      { id: 'm1', cat: 'meat', name: 'Բժշկական երշիկ', type: 'slice_round', c1: '#ff96b0', c2: '#ffc7d5' },
+      { id: 'm2', cat: 'meat', name: 'Կծու պեպերոնի', type: 'salami', c1: '#cc1f1f', c2: '#ff8a8a' },
+      { id: 'm3', cat: 'meat', name: 'Իտալական սալյամի', type: 'salami', c1: '#9e1924', c2: '#f2b8bd' },
+      { id: 'm4', cat: 'meat', name: 'Նուրբ խոզապուխտ', type: 'slice_round', c1: '#f27992', c2: '#fab6c4' },
+      { id: 'm5', cat: 'meat', name: 'Խրթխրթան բեկոն', type: 'bacon', c1: '#bf2e2e', c2: '#ffd4c9' },
+      { id: 'm6', cat: 'meat', name: 'Պրոշուտո', type: 'bacon', c1: '#d1505b', c2: '#ffd9dc' },
+      { id: 'm7', cat: 'meat', name: 'Հավի կրծքամիս', type: 'slice_round', c1: '#f2cfa9', c2: '#d49c6e' },
+      { id: 'm8', cat: 'meat', name: 'Խրթխրթան նագեթս', type: 'nuggets', c1: '#e6942e', c2: '#ffd082' },
+      { id: 'm9', cat: 'meat', name: 'Հնդկահավի ֆիլե', type: 'slice_round', c1: '#f5c2b0', c2: '#fae0d7' },
+      { id: 'm10', cat: 'meat', name: 'Հյութեղ ռոստբիֆ', type: 'slice_round', c1: '#82242b', c2: '#c7545d' },
+      { id: 'm11', cat: 'meat', name: 'Նրբերշիկի շերտեր', type: 'berries', c1: '#ed6d78', c2: '#ffb8be' },
+      { id: 'm12', cat: 'meat', name: 'Հայկական բաստուրմա', type: 'salami', c1: '#85161d', c2: '#420d11' },
+      { id: 'm13', cat: 'meat', name: 'Համեմված սուջուխ', type: 'salami', c1: '#631318', c2: '#d49296' },
+      { id: 'm14', cat: 'meat', name: 'Թույլ աղի սաղմոն', type: 'bacon', c1: '#fa714d', c2: '#ffc4b5' },
+      { id: 'm15', cat: 'meat', name: 'Թունա ձուկ', type: 'blob', c1: '#e39199', c2: '#f7c8cd' },
+      { id: 'm16', cat: 'meat', name: 'Թագավորական ծովախեցգետին', type: 'shrimp', c1: '#fa704d', c2: '#ffd1c4' },
+      { id: 'm17', cat: 'meat', name: 'Կարմիր խավիար', type: 'berries', c1: '#f74311', c2: '#ff9c7a' },
+      { id: 'm18', cat: 'meat', name: 'Աչքաձվածեղ', type: 'egg_fried', c1: '#ffffff', c2: '#ffb300' },
+      { id: 'm19', cat: 'meat', name: 'Պաշոտ ձու', type: 'mozzarella', c1: '#ffffff', c2: '#ffd166' },
+      { id: 'm20', cat: 'meat', name: 'Խաշած ձվի շերտ', type: 'egg_boiled', c1: '#ffffff', c2: '#ffc814' },
 
-            if (selectedToppings.length === 0) {
-                toppingsLayer.innerHTML = '';
-                tagsContainer.innerHTML = '<span class="text-[11px] text-[#b87a99]">Դեռ դատարկ է... ընտրիր աջից 👉</span>';
-                statusText.textContent = 'Ընտրիր միջուկներ 100 տեսականուց...';
-                return;
-            }
+      // 4. ՍՈՈՒՍՆԵՐ ԵՎ ՄԱԾՈՒԿՆԵՐ (15)
+      { id: 's1', cat: 'sauces', name: 'Նուրբ մայոնեզ', type: 'zigzag', c1: '#fffdf2', c2: '#f0e8d5' },
+      { id: 's2', cat: 'sauces', name: 'Լոլիկի կետչուպ', type: 'zigzag', c1: '#db1a21', c2: '#ff6b70' },
+      { id: 's3', cat: 'sauces', name: 'Դիժոնի մանանեխ', type: 'zigzag', c1: '#e0aa19', c2: '#ffe07d' },
+      { id: 's4', cat: 'sauces', name: 'Կանաչ պեստո', type: 'blob', c1: '#419430', c2: '#82d46e' },
+      { id: 's5', cat: 'sauces', name: 'Պանրային սոուս', type: 'zigzag', c1: '#fab10f', c2: '#ffe28a' },
+      { id: 's6', cat: 'sauces', name: 'Բարբեքյու սոուս', type: 'zigzag', c1: '#521710', c2: '#963b30' },
+      { id: 's7', cat: 'sauces', name: 'Սխտորի սոուս', type: 'blob', c1: '#faf8f0', c2: '#e3ddd0' },
+      { id: 's8', cat: 'sauces', name: 'Քաղցր չիլի սոուս', type: 'zigzag', c1: '#f7381e', c2: '#ff9680' },
+      { id: 's9', cat: 'sauces', name: 'Կծու սրիրաչա', type: 'zigzag', c1: '#cf1515', c2: '#ff5959' },
+      { id: 's10', cat: 'sauces', name: 'Տերիյակի սոուս', type: 'zigzag', c1: '#36140c', c2: '#753627' },
+      { id: 's11', cat: 'sauces', name: 'Բալզամիկ կրեմ', type: 'zigzag', c1: '#260b12', c2: '#6b293b' },
+      { id: 's12', cat: 'sauces', name: 'Հումուս մածուկ', type: 'blob', c1: '#e0bf89', c2: '#f5e1be' },
+      { id: 's13', cat: 'sauces', name: 'Սերուցքային կարագ', type: 'square', c1: '#ffed8a', c2: '#fff9cc' },
+      { id: 's14', cat: 'sauces', name: 'Թթվասեր', type: 'blob', c1: '#ffffff', c2: '#edf2f5' },
+      { id: 's15', cat: 'sauces', name: 'Ռանչ սոուս', type: 'zigzag', c1: '#f5faf2', c2: '#d5e6cf' },
 
-            toppingsLayer.innerHTML = selectedToppings.map((item, idx) => {
-                const dx = ((idx % 3) - 1) * 4;
-                const dy = ((Math.floor(idx / 3) % 3) - 1) * 3;
-                const isLast = idx === selectedToppings.length - 1;
-                return `
-                <svg viewBox="0 0 64 64" shape-rendering="crispEdges" 
-                     class="w-52 h-52 sm:w-60 sm:h-60 absolute ${isLast ? 'animate-drop' : ''}" 
-                     style="transform: translate(${dx}px, ${dy}px); z-index: ${idx + 2};">
-                    ${item.layer}
-                </svg>`;
-            }).join('');
+      // 5. ՄՐԳԵՐ ԵՎ ՀԱՏԱՊՏՈՒՂՆԵՐ (15)
+      { id: 'f1', cat: 'fruits', name: 'Քաղցր ելակ', type: 'strawberry', c1: '#f72056', c2: '#41a33b' },
+      { id: 'f2', cat: 'fruits', name: 'Բանանի շերտեր', type: 'slice_round', c1: '#ffe35e', c2: '#fff7c2' },
+      { id: 'f3', cat: 'fruits', name: 'Թարմ հապալաս', type: 'berries', c1: '#334594', c2: '#788ce0' },
+      { id: 'f4', cat: 'fruits', name: 'Վարդագույն ազնվամորի', type: 'berries', c1: '#fa286e', c2: '#ff8cb3' },
+      { id: 'f5', cat: 'fruits', name: 'Կանաչ կիվի', type: 'kiwi', c1: '#70bf39', c2: '#d9f7be' },
+      { id: 'f6', cat: 'fruits', name: 'Արևադարձային մանգո', type: 'cubes', c1: '#faaf00', c2: '#ffe066' },
+      { id: 'f7', cat: 'fruits', name: 'Հյութեղ դեղձ', type: 'slice_round', c1: '#fa8b4b', c2: '#ffd1b3' },
+      { id: 'f8', cat: 'fruits', name: 'Քաղցր բալ', type: 'berries', c1: '#ad0e33', c2: '#ff5c82' },
+      { id: 'f9', cat: 'fruits', name: 'Թարմ թուզ', type: 'fig', c1: '#702659', c2: '#ff7aa8' },
+      { id: 'f10', cat: 'fruits', name: 'Հյութեղ արքայախնձոր', type: 'triangle', c1: '#facc16', c2: '#fff099' },
+      { id: 'f11', cat: 'fruits', name: 'Կարմիր խնձոր', type: 'slice_round', c1: '#e32437', c2: '#fff7e6' },
+      { id: 'f12', cat: 'fruits', name: 'Նարնջի շերտ', type: 'kiwi', c1: '#fa7e05', c2: '#ffd29e' },
+      { id: 'f13', cat: 'fruits', name: 'Սև մոշ', type: 'berries', c1: '#23152e', c2: '#5f4375' },
+      { id: 'f14', cat: 'fruits', name: 'Նռան հատիկներ', type: 'berries', c1: '#cf0e31', c2: '#ff6682' },
+      { id: 'f15', cat: 'fruits', name: 'Կարամելացված տանձ', type: 'slice_round', c1: '#d19b36', c2: '#fae4b4' },
 
-            tagsContainer.innerHTML = selectedToppings.map((item, idx) => `
-                <span class="inline-flex items-center gap-1 bg-white border border-[#ff2e93] text-[#1e0a14] text-[10px] font-extrabold px-2 py-0.5 rounded-md">
-                    ${item.name}
-                    <button onclick="removeToppingAt(${idx})" class="text-[#ff2e93] hover:text-black ml-0.5 cursor-pointer">×</button>
-                </span>
-            `).join('');
+      // 6. ՔԱՂՑՐԱՎԵՆԻՔ ԵՎ ԴԵԿՈՐ (15)
+      { id: 'w1', cat: 'sweets', name: 'Նուտելլա շոկոլադ', type: 'blob', c1: '#451f12', c2: '#7a412c' },
+      { id: 'w2', cat: 'sweets', name: 'Սպիտակ շոկոլադ', type: 'blob', c1: '#fff8e6', c2: '#f0e0c0' },
+      { id: 'w3', cat: 'sweets', name: 'Գետնանուշի կարագ', type: 'blob', c1: '#c2772f', c2: '#e8a866' },
+      { id: 'w4', cat: 'sweets', name: 'Ելակի վարդագույն ջեմ', type: 'blob', c1: '#fa2d75', c2: '#ff8cb5' },
+      { id: 'w5', cat: 'sweets', name: 'Հարած սերուցք', type: 'whipped', c1: '#ffffff', c2: '#ffe0ec' },
+      { id: 'w6', cat: 'sweets', name: 'Ոսկեգույն մեղր', type: 'zigzag', c1: '#faab00', c2: '#ffe175' },
+      { id: 'w7', cat: 'sweets', name: 'Աղի կարամել', type: 'zigzag', c1: '#c46616', c2: '#f5a65b' },
+      { id: 'w8', cat: 'sweets', name: 'Մինի մարշմելոու', type: 'cubes', c1: '#ffffff', c2: '#ffc4dc' },
+      { id: 'w9', cat: 'sweets', name: 'Վարդագույն մակարոն', type: 'macaron', c1: '#fa649d', c2: '#ffd6e6' },
+      { id: 'w10', cat: 'sweets', name: 'Օրեո թխվածքաբլիթ', type: 'oreo', c1: '#241d1f', c2: '#ffffff' },
+      { id: 'w11', cat: 'sweets', name: 'Վանիլային պաղպաղակ', type: 'mozzarella', c1: '#fff5d9', c2: '#ffe19c' },
+      { id: 'w12', cat: 'sweets', name: 'Գունավոր շաքարահատիկ', type: 'sprinkles', c1: '#fa3c88', c2: '#3ccaff' },
+      { id: 'w13', cat: 'sweets', name: 'Սրտաձև շոկոլադ', type: 'heart', c1: '#fa2379', c2: '#ff85b6' },
+      { id: 'w14', cat: 'sweets', name: 'Կոկոսի փաթիլներ', type: 'sprinkles', c1: '#ffffff', c2: '#e3f0f5' },
+      { id: 'w15', cat: 'sweets', name: 'Շաքարե վարդագույն բանտիկ', type: 'bow', c1: '#fa2d82', c2: '#ff9ec7' }
+    ];
 
-            statusText.textContent = `${currentBread.name} • ${selectedToppings.length} շերտ ✨`;
-        }
+    // Ռեալիստիկ 3D/ստվերավորված վեկտորային SVG գեներատոր
+    function getToppingSVG(t) {
+      const gid = 'g_' + t.id;
+      const grad = `<defs>
+        <radialGradient id="${gid}" cx="35%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="${t.c2}"/>
+          <stop offset="100%" stop-color="${t.c1}"/>
+        </radialGradient>
+      </defs>`;
 
-        // ============================================================
-        // 7. ԻՆՏԵՐԱԿՏԻՎ ԳՈՐԾՈՂՈՒԹՅՈՒՆՆԵՐ
-        // ============================================================
-        function chooseBread(id, event) {
-            const found = breads.find(b => b.id === id);
-            if (!found) return;
-            currentBread = found;
-            renderBreads();
-            renderPlate();
-            updateMascotSpeech('♥ Հրաշալի հաց է');
-            if (event) spawnPixelParticle(event.clientX, event.clientY, '🍞');
-        }
+      switch (t.type) {
+        case 'avocado':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M50 10 C27 10 19 45 19 67 C19 85 33 93 50 93 C67 93 81 85 81 67 C81 45 73 10 50 10 Z" fill="${t.c1}"/>
+            <path d="M50 16 C32 16 25 46 25 66 C25 80 36 87 50 87 C64 87 75 80 75 66 C75 46 68 16 50 16 Z" fill="${t.c2}"/>
+            <circle cx="50" cy="64" r="14" fill="${t.c3}"/>
+            <ellipse cx="46" cy="59" rx="5" ry="3" fill="#a86d48" opacity="0.7"/>
+          </svg>`;
+        case 'blob':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">${grad}
+            <path d="M25 42 C17 27 38 13 54 21 C71 13 89 27 81 44 C93 59 81 83 62 79 C48 89 23 83 21 64 C11 56 15 44 25 42 Z" fill="url(#${gid})"/>
+            <ellipse cx="40" cy="36" rx="10" ry="5" fill="#ffffff" opacity="0.35" transform="rotate(-15 40 36)"/>
+          </svg>`;
+        case 'slice_ring':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <circle cx="50" cy="50" r="39" fill="${t.c1}"/>
+            <circle cx="50" cy="50" r="31" fill="${t.c2}"/>
+            <circle cx="50" cy="50" r="12" fill="${t.c1}" opacity="0.65"/>
+            <circle cx="38" cy="38" r="3" fill="#ffffff" opacity="0.6"/>
+            <circle cx="62" cy="62" r="3" fill="#ffffff" opacity="0.6"/>
+          </svg>`;
+        case 'berries':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">${grad}
+            <circle cx="35" cy="39" r="17" fill="url(#${gid})"/><circle cx="30" cy="33" r="4" fill="#ffffff" opacity="0.55"/>
+            <circle cx="67" cy="43" r="16" fill="url(#${gid})"/><circle cx="62" cy="37" r="4" fill="#ffffff" opacity="0.55"/>
+            <circle cx="50" cy="68" r="17" fill="url(#${gid})"/><circle cx="45" cy="62" r="4" fill="#ffffff" opacity="0.55"/>
+          </svg>`;
+        case 'leaf':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">${grad}
+            <path d="M18 76 C18 34 55 16 84 18 C82 52 63 84 18 76 Z" fill="url(#${gid})"/>
+            <path d="M23 73 Q53 47 77 25" stroke="${t.c2}" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          </svg>`;
+        case 'onion':
+        case 'ring':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <circle cx="50" cy="50" r="35" fill="none" stroke="${t.c1}" stroke-width="11"/>
+            <circle cx="50" cy="50" r="23" fill="none" stroke="${t.c2}" stroke-width="5"/>
+          </svg>`;
+        case 'sprinkles':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <rect x="24" y="28" width="16" height="7" rx="3.5" transform="rotate(25 24 28)" fill="${t.c1}"/>
+            <rect x="58" y="24" width="16" height="7" rx="3.5" transform="rotate(-20 58 24)" fill="${t.c2}"/>
+            <rect x="42" y="48" width="18" height="7" rx="3.5" transform="rotate(12 42 48)" fill="${t.c1}"/>
+            <rect x="26" y="66" width="16" height="7" rx="3.5" transform="rotate(-35 26 66)" fill="${t.c2}"/>
+            <rect x="60" y="64" width="16" height="7" rx="3.5" transform="rotate(30 60 64)" fill="${t.c1}"/>
+          </svg>`;
+        case 'olives':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <circle cx="38" cy="42" r="17" fill="${t.c1}"/><circle cx="38" cy="42" r="6" fill="${t.c2}"/><circle cx="32" cy="35" r="3" fill="#ffffff" opacity="0.4"/>
+            <circle cx="64" cy="62" r="17" fill="${t.c1}"/><circle cx="64" cy="62" r="6" fill="${t.c2}"/><circle cx="58" cy="55" r="3" fill="#ffffff" opacity="0.4"/>
+          </svg>`;
+        case 'mushroom':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M21 52 C21 25 79 25 79 52 C79 58 68 60 60 58 L60 79 C60 84 40 84 40 79 L40 58 C32 60 21 58 21 52 Z" fill="${t.c1}"/>
+            <path d="M29 50 C29 33 71 33 71 50 Z" fill="${t.c2}" opacity="0.65"/>
+          </svg>`;
+        case 'square':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">${grad}
+            <rect x="16" y="16" width="68" height="68" rx="14" fill="url(#${gid})"/>
+          </svg>`;
+        case 'mozzarella':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">${grad}
+            <circle cx="50" cy="52" r="35" fill="url(#${gid})"/>
+            <ellipse cx="38" cy="36" rx="11" ry="6" fill="#ffffff" opacity="0.7" transform="rotate(-20 38 36)"/>
+          </svg>`;
+        case 'triangle':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <polygon points="50,15 87,81 13,81" fill="${t.c1}" stroke="${t.c2}" stroke-width="4" stroke-linejoin="round"/>
+            <circle cx="50" cy="56" r="5" fill="${t.c2}"/><circle cx="38" cy="70" r="4" fill="${t.c2}"/>
+          </svg>`;
+        case 'cubes':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <rect x="21" y="23" width="25" height="25" rx="6" fill="${t.c1}" stroke="${t.c2}" stroke-width="2.5"/>
+            <rect x="54" y="27" width="25" height="25" rx="6" fill="${t.c1}" stroke="${t.c2}" stroke-width="2.5"/>
+            <rect x="36" y="54" width="27" height="27" rx="6" fill="${t.c1}" stroke="${t.c2}" stroke-width="2.5"/>
+          </svg>`;
+        case 'sticks':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <rect x="18" y="28" width="64" height="13" rx="6.5" transform="rotate(-12 18 28)" fill="${t.c1}"/>
+            <rect x="18" y="56" width="64" height="13" rx="6.5" transform="rotate(10 18 56)" fill="${t.c2}"/>
+          </svg>`;
+        case 'slice_round':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">${grad}
+            <circle cx="50" cy="50" r="37" fill="url(#${gid})"/>
+          </svg>`;
+        case 'salami':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <circle cx="50" cy="50" r="37" fill="${t.c1}"/>
+            <circle cx="38" cy="38" r="4" fill="${t.c2}"/><circle cx="62" cy="40" r="3.5" fill="${t.c2}"/>
+            <circle cx="48" cy="56" r="4.5" fill="${t.c2}"/><circle cx="64" cy="62" r="3.5" fill="${t.c2}"/>
+            <circle cx="34" cy="62" r="3.5" fill="${t.c2}"/>
+          </svg>`;
+        case 'bacon':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M15 33 Q36 19 52 33 T87 33 L87 65 Q66 79 50 65 T15 65 Z" fill="${t.c1}"/>
+            <path d="M15 46 Q36 32 52 46 T87 46" stroke="${t.c2}" stroke-width="6.5" fill="none"/>
+          </svg>`;
+        case 'nuggets':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <rect x="20" y="23" width="34" height="26" rx="13" fill="${t.c1}"/>
+            <rect x="45" y="47" width="36" height="28" rx="14" fill="${t.c2}"/>
+          </svg>`;
+        case 'shrimp':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M68 27 C40 17 21 42 29 67 C35 81 56 81 62 69 C50 69 44 56 48 46 C52 38 64 38 72 44 Z" fill="${t.c1}"/>
+            <circle cx="66" cy="34" r="3" fill="#2b1d24"/>
+          </svg>`;
+        case 'egg_fried':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M24 44 C18 28 38 16 56 22 C74 16 86 34 78 52 C86 70 68 86 50 80 C30 86 16 68 24 44 Z" fill="${t.c1}"/>
+            <circle cx="52" cy="50" r="17" fill="${t.c2}"/>
+            <ellipse cx="46" cy="44" rx="5" ry="3" fill="#ffffff" opacity="0.75"/>
+          </svg>`;
+        case 'egg_boiled':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <ellipse cx="50" cy="50" rx="31" ry="39" fill="${t.c1}"/>
+            <circle cx="50" cy="54" r="16" fill="${t.c2}"/>
+          </svg>`;
+        case 'zigzag':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M18 32 Q50 17 82 32 T18 52 T82 72" stroke="${t.c1}" stroke-width="11" fill="none" stroke-linecap="round"/>
+            <path d="M18 30 Q50 15 82 30" stroke="${t.c2}" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>
+          </svg>`;
+        case 'strawberry':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M50 87 C25 69 21 36 38 28 C46 24 54 24 62 28 C79 36 75 69 50 87 Z" fill="${t.c1}"/>
+            <path d="M31 28 Q50 38 69 28 Q58 15 50 21 Q42 15 31 28 Z" fill="${t.c2}"/>
+            <circle cx="43" cy="48" r="2" fill="#ffe680"/><circle cx="57" cy="48" r="2" fill="#ffe680"/><circle cx="50" cy="64" r="2" fill="#ffe680"/>
+          </svg>`;
+        case 'kiwi':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <circle cx="50" cy="50" r="37" fill="${t.c1}"/>
+            <circle cx="50" cy="50" r="15" fill="${t.c2}"/>
+          </svg>`;
+        case 'fig':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M50 15 C64 31 79 46 79 64 C79 81 65 89 50 89 C35 89 21 81 21 64 C21 46 36 31 50 15 Z" fill="${t.c1}"/>
+            <circle cx="50" cy="62" r="18" fill="${t.c2}"/>
+          </svg>`;
+        case 'whipped':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M23 73 C17 58 31 50 31 50 C25 38 40 29 46 29 C46 19 56 15 56 25 C67 27 73 40 69 50 C79 54 83 68 75 75 Z" fill="${t.c1}" stroke="${t.c2}" stroke-width="3"/>
+          </svg>`;
+        case 'macaron':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <rect x="19" y="29" width="62" height="17" rx="8.5" fill="${t.c1}"/>
+            <rect x="21" y="46" width="58" height="8" rx="4" fill="${t.c2}"/>
+            <rect x="19" y="54" width="62" height="17" rx="8.5" fill="${t.c1}"/>
+          </svg>`;
+        case 'oreo':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <circle cx="50" cy="50" r="35" fill="${t.c1}"/>
+            <circle cx="50" cy="50" r="24" fill="none" stroke="${t.c2}" stroke-width="3" stroke-dasharray="6 4"/>
+          </svg>`;
+        case 'heart':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">${grad}
+            <path d="M50 83 C21 63 13 44 13 32 C13 20 23 13 34 13 C42 13 47 18 50 24 C53 18 58 13 66 13 C77 13 87 20 87 32 C87 44 79 63 50 83 Z" fill="url(#${gid})"/>
+          </svg>`;
+        case 'bow':
+          return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M50 50 L19 27 C13 40 13 60 19 73 Z" fill="${t.c1}"/>
+            <path d="M50 50 L81 27 C87 40 87 60 81 73 Z" fill="${t.c1}"/>
+            <circle cx="50" cy="50" r="10" fill="${t.c2}"/>
+          </svg>`;
+        default:
+          return `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="33" fill="${t.c1}"/></svg>`;
+      }
+    }
 
-        function addTopping(id, event) {
-            const found = toppings.find(t => t.id === id);
-            if (!found) return;
-            selectedToppings.push(found);
-            renderPlate();
-            updateMascotSpeech(mascotQuotes[Math.floor(Math.random() * mascotQuotes.length)]);
-            if (event) spawnPixelParticle(event.clientX, event.clientY, '♥');
-        }
+    // Ծրագրի վիճակ (State)
+    let selectedBread = BREADS[0];
+    let isToasted = false;
+    let isToastingNow = false;
+    let activeCategory = 'all';
+    let placedToppings = [];
+    let draggedCatalogId = null;
 
-        function removeToppingAt(idx) {
-            selectedToppings.splice(idx, 1);
-            renderPlate();
-        }
+    function init() {
+      renderBreads();
+      renderTabs();
+      renderToppings();
+      renderPlate();
+      setupPlateDragAndDrop();
+    }
 
-        function undoTopping() {
-            if (selectedToppings.length === 0) return;
-            selectedToppings.pop();
-            renderPlate();
-            updateMascotSpeech('↩ Վերջին շերտը հանվեց');
-        }
+    function renderBreads() {
+      const grid = document.getElementById('bread-grid');
+      grid.innerHTML = BREADS.map(b => `
+        <div class="bread-item ${b.id === selectedBread.id ? 'active' : ''}" onclick="selectBread('${b.id}')">
+          <div class="bread-thumb">${getRealisticBreadSVG(b, false)}</div>
+          <div class="bread-name">${b.name}</div>
+        </div>
+      `).join('');
+    }
 
-        function clearToast() {
-            selectedToppings = [];
-            renderPlate();
-            updateMascotSpeech('♥ Սկսենք նորից');
-        }
+    function selectBread(id) {
+      if (isToastingNow) return;
+      selectedBread = BREADS.find(b => b.id === id);
+      isToasted = false;
+      renderBreads();
+      renderPlate();
+      updateChefComment(`🍞 Ընտրվեց «${selectedBread.name}» — հիմա կարող ես տապակել տոստերում`);
+    }
 
-        function setCategory(cat) {
-            activeCategory = cat;
-            document.querySelectorAll('.cat-tab').forEach(btn => {
-                if (btn.dataset.cat === cat) {
-                    btn.className = 'cat-tab px-2 py-1 rounded-lg text-[11px] font-extrabold bg-[#ff2e93] text-white border-2 border-[#1e0a14] cursor-pointer';
-                } else {
-                    btn.className = 'cat-tab px-2 py-1 rounded-lg text-[11px] font-extrabold bg-[#ffe6f2] text-[#1e0a14] border-2 border-transparent hover:border-[#ff2e93] cursor-pointer';
-                }
-            });
-            renderToppings();
-        }
+    // Իրական տոստերի անիմացիա
+    function runToaster() {
+      if (isToastingNow) return;
+      isToastingNow = true;
 
-        function handleSearch(val) {
-            searchQuery = val.trim();
-            const clearBtn = document.getElementById('clear-search-btn');
-            if (searchQuery) {
-                clearBtn.classList.remove('hidden');
-            } else {
-                clearBtn.classList.add('hidden');
-            }
-            renderToppings();
-        }
+      const btn = document.getElementById('toast-btn');
+      const slot = document.getElementById('toaster-bread-slot');
+      const body = document.getElementById('toaster-body');
 
-        function clearSearch() {
-            const input = document.getElementById('topping-search');
-            input.value = '';
-            handleSearch('');
-        }
+      btn.disabled = true;
+      updateChefComment('🔥 Հացը տոստերի մեջ է... կարմրում է');
 
-        function applyPreset(presetType) {
-            if (presetType === 'avocado_brunch') {
-                currentBread = breads.find(b => b.id === 'multigrain_toast');
-                selectedToppings = [
-                    toppings.find(t => t.id === 'cream_cheese'),
-                    toppings.find(t => t.id === 'avocado_slices'),
-                    toppings.find(t => t.id === 'smoked_salmon'),
-                    toppings.find(t => t.id === 'poached_egg'),
-                    toppings.find(t => t.id === 'arugula')
-                ];
-            } else if (presetType === 'pepperoni_melt') {
-                currentBread = breads.find(b => b.id === 'crispy_croissant');
-                selectedToppings = [
-                    toppings.find(t => t.id === 'cheese_sauce'),
-                    toppings.find(t => t.id === 'cheddar'),
-                    toppings.find(t => t.id === 'pepperoni'),
-                    toppings.find(t => t.id === 'tomato_slices'),
-                    toppings.find(t => t.id === 'black_olives')
-                ];
-            } else if (presetType === 'pickme_sweet') {
-                currentBread = breads.find(b => b.id === 'pink_brioche');
-                selectedToppings = [
-                    toppings.find(t => t.id === 'nutella'),
-                    toppings.find(t => t.id === 'whipped_cream'),
-                    toppings.find(t => t.id === 'strawberry'),
-                    toppings.find(t => t.id === 'pink_macaron'),
-                    toppings.find(t => t.id === 'pink_bow')
-                ];
-            }
-            renderBreads();
-            renderPlate();
-            updateMascotSpeech('♥ Պատրաստ է համտեսելու');
-            document.getElementById('studio-section').scrollIntoView({ behavior: 'smooth' });
-        }
+      // Հացը ցուցադրել տոստերի մեջ
+      slot.innerHTML = getRealisticBreadSVG(selectedBread, false);
+      slot.classList.remove('popping-out');
+      slot.classList.add('in-toaster');
 
-        function updateMascotSpeech(text) {
-            document.getElementById('mascot-bubble').textContent = text;
-        }
+      setTimeout(() => {
+        body.classList.add('heating');
+      }, 220);
 
-        // ============================================================
-        // 8. ՊԱՏՐԱՍՏ Է՝ ՏՈՆԱԿԱՆ ՄՈԴԱԼ (ԱԴԱՊՏԻՎ ՀԱՄԻ ԳՆԱՀԱՏԱԿԱՆՈՎ)
-        // ============================================================
-        function finishToast() {
-            const modal = document.getElementById('finish-modal');
-            const card = document.getElementById('finish-modal-card');
-            const preview = document.getElementById('modal-toast-preview');
-            const recipeText = document.getElementById('modal-recipe-text');
-            const titleEl = document.getElementById('modal-delicious-title');
-            const descEl = document.getElementById('modal-delicious-desc');
+      // Կարմրած հացը դուրս է թռչում
+      setTimeout(() => {
+        body.classList.remove('heating');
+        isToasted = true;
+        slot.innerHTML = getRealisticBreadSVG(selectedBread, true);
+        slot.classList.remove('in-toaster');
+        slot.classList.add('popping-out');
+        updateChefComment('✨ Դինգ-դոնգ։ Խրթխրթան հացը պատրաստ է, դիր միջուկները');
+      }, 1700);
 
-            const hasSavory = selectedToppings.some(t => ['veg', 'cheese', 'meat', 'sauce'].includes(t.cat));
-            const hasSweet = selectedToppings.some(t => ['fruit', 'sweet'].includes(t.cat));
+      // Հայտնվում է ափսեի վրա
+      setTimeout(() => {
+        slot.classList.remove('popping-out');
+        slot.style.opacity = '0';
+        renderPlate(true);
+        btn.disabled = false;
+        isToastingNow = false;
+        setTimeout(() => { slot.style.opacity = ''; }, 300);
+      }, 2250);
+    }
 
-            if (hasSavory && hasSweet) {
-                titleEl.textContent = "Վա՜յ, ի՜նչ համարձակ ու շատ համեղ միքս է 💖";
-                descEl.textContent = "Քաղցր ու աղի համերի այս անսպասելի համադրությունը ուղղակի հրաշք է։ Շա՜տ համեղ է ստացվել 🥑🍓✨";
-            } else if (hasSavory) {
-                titleEl.textContent = "Մմմ՜, անչափ հյութալի ու համեղ է 🧀🥓";
-                descEl.textContent = "Իսկական խոհարարական գլուխգործոց։ Ամեն մի կտորը լի է հարուստ ու ախորժելի համով 💖✨";
-            } else {
-                titleEl.textContent = "Շա՜տ-շա՜տ համեղ և քաղցր է ստացվել 💖";
-                descEl.textContent = "Այսպիսի սիրուն, պիքսելային ու ռոզվի տոստ աշխարհում էլ չկա։ Բոն ապետիտ 🍓🎀✨";
-            }
+    function renderTabs() {
+      const tabs = document.getElementById('category-tabs');
+      tabs.innerHTML = CATEGORIES.map(c => `
+        <button class="tab-btn ${c.id === activeCategory ? 'active' : ''}" onclick="setCategory('${c.id}')">
+          ${c.label}
+        </button>
+      `).join('');
+    }
 
-            let html = `<div class="absolute inset-0 flex items-center justify-center">${buildBreadPixelSvg(currentBread, 'w-36 h-36')}</div>`;
-            selectedToppings.forEach((item, idx) => {
-                const dx = ((idx % 3) - 1) * 3;
-                const dy = ((Math.floor(idx / 3) % 3) - 1) * 2;
-                html += `<svg viewBox="0 0 64 64" shape-rendering="crispEdges" class="w-36 h-36 absolute" style="transform: translate(${dx}px, ${dy}px); z-index: ${idx + 2};">${item.layer}</svg>`;
-            });
-            preview.innerHTML = html;
+    function setCategory(catId) {
+      activeCategory = catId;
+      renderTabs();
+      renderToppings();
+    }
 
-            if (selectedToppings.length === 0) {
-                recipeText.textContent = `Հիմքը՝ ${currentBread.name} (Նուրբ և խրթխրթան 🎀)`;
-            } else {
-                const names = [...new Set(selectedToppings.map(t => t.name))];
-                recipeText.textContent = `${currentBread.name} + ${names.join(', ')}`;
-            }
+    function renderToppings() {
+      const query = document.getElementById('search-input').value.trim().toLowerCase();
+      const grid = document.getElementById('toppings-grid');
 
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            setTimeout(() => {
-                card.classList.remove('scale-95', 'opacity-0');
-                card.classList.add('scale-100', 'opacity-100');
-            }, 20);
+      const filtered = TOPPINGS.filter(t => {
+        const matchCat = activeCategory === 'all' || t.cat === activeCategory;
+        const matchText = t.name.toLowerCase().includes(query);
+        return matchCat && matchText;
+      });
 
-            for (let i = 0; i < 14; i++) {
-                setTimeout(() => {
-                    const rx = Math.random() * window.innerWidth;
-                    const ry = Math.random() * window.innerHeight;
-                    const icons = ['♥', '✦', '🥑', '🍓', '🧀', '🎀'];
-                    spawnPixelParticle(rx, ry, icons[i % icons.length]);
-                }, i * 65);
-            }
-        }
+      grid.innerHTML = filtered.map(t => {
+        const count = placedToppings.filter(p => p.id === t.id).length;
+        return `
+          <div class="topping-card"
+               draggable="true"
+               ondragstart="onCatalogDragStart(event, '${t.id}')"
+               onclick="addToppingAt('${t.id}', null, null)">
+            ${count > 0 ? `<div class="topping-count-badge">${count}</div>` : ''}
+            <div class="topping-svg-box">${getToppingSVG(t)}</div>
+            <div class="topping-title">${t.name}</div>
+          </div>
+        `;
+      }).join('');
+    }
 
-        function closeFinishModal() {
-            const modal = document.getElementById('finish-modal');
-            const card = document.getElementById('finish-modal-card');
-            card.classList.remove('scale-100', 'opacity-100');
-            card.classList.add('scale-95', 'opacity-0');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }, 180);
-        }
+    function onCatalogDragStart(e, id) {
+      draggedCatalogId = id;
+      e.dataTransfer.setData('text/plain', id);
+    }
 
-        function startNewToast() {
-            closeFinishModal();
-            clearToast();
-        }
+    // Ափսեի վրա քաշել-գցելու (Drop) կարգավորում
+    function setupPlateDragAndDrop() {
+      const stage = document.getElementById('plate-stage');
+      const plate = document.getElementById('plate-el');
 
-        function spawnPixelParticle(x, y, char) {
-            if (!x || !y) return;
-            const el = document.createElement('div');
-            el.className = 'particle-fx font-pixel-en text-xl font-bold text-[#ff2e93]';
-            el.textContent = char;
-            el.style.left = `${x - 10}px`;
-            el.style.top = `${y - 10}px`;
-            document.body.appendChild(el);
-            setTimeout(() => el.remove(), 850);
-        }
+      stage.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        plate.classList.add('drag-over');
+      });
 
-        window.onload = function() {
-            renderBreads();
-            renderToppings();
-            renderPlate();
-        };
-    </script>
+      stage.addEventListener('dragleave', () => {
+        plate.classList.remove('drag-over');
+      });
+
+      stage.addEventListener('drop', (e) => {
+        e.preventDefault();
+        plate.classList.remove('drag-over');
+        const id = e.dataTransfer.getData('text/plain') || draggedCatalogId;
+        if (!id) return;
+
+        const canvas = document.getElementById('toast-canvas');
+        const rect = canvas.getBoundingClientRect();
+        const xPct = Math.max(15, Math.min(85, ((e.clientX - rect.left) / rect.width) * 100));
+        const yPct = Math.max(15, Math.min(85, ((e.clientY - rect.top) / rect.height) * 100));
+
+        addToppingAt(id, xPct, yPct);
+        draggedCatalogId = null;
+      });
+    }
+
+    function addToppingAt(id, xPct, yPct) {
+      const item = TOPPINGS.find(t => t.id === id);
+      if (!item) return;
+
+      const x = xPct !== null ? xPct : 50 + (Math.random() * 28 - 14);
+      const y = yPct !== null ? yPct : 52 + (Math.random() * 28 - 14);
+      const rot = Math.floor(Math.random() * 40 - 20);
+
+      placedToppings.push({
+        uid: Date.now() + Math.random(),
+        ...item,
+        x,
+        y,
+        rot
+      });
+
+      renderPlate(false);
+      renderToppings();
+      updateChefComment(`💖 Ավելացվեց «${item.name}» — կարող ես շարժել ցանկացած տեղ`);
+    }
+
+    // Արդեն դրված միջուկի ազատ տեղաշարժում (Pointer Events)
+    function startMovePlacedTopping(e, uid) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const el = e.currentTarget;
+      const canvas = document.getElementById('toast-canvas');
+      const rect = canvas.getBoundingClientRect();
+      const item = placedToppings.find(t => t.uid === uid);
+      if (!item) return;
+
+      el.classList.add('dragging');
+
+      function onMove(ev) {
+        const clientX = ev.touches ? ev.touches[0].clientX : ev.clientX;
+        const clientY = ev.touches ? ev.touches[0].clientY : ev.clientY;
+        const nx = Math.max(12, Math.min(88, ((clientX - rect.left) / rect.width) * 100));
+        const ny = Math.max(12, Math.min(88, ((clientY - rect.top) / rect.height) * 100));
+        item.x = nx;
+        item.y = ny;
+        el.style.left = nx + '%';
+        el.style.top = ny + '%';
+      }
+
+      function onEnd() {
+        el.classList.remove('dragging');
+        window.removeEventListener('pointermove', onMove);
+        window.removeEventListener('pointerup', onEnd);
+      }
+
+      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onEnd);
+    }
+
+    function removeToppingByUid(uid) {
+      placedToppings = placedToppings.filter(t => t.uid !== uid);
+      renderPlate(false);
+      renderToppings();
+    }
+
+    function undoTopping() {
+      if (placedToppings.length === 0) return;
+      placedToppings.pop();
+      renderPlate(false);
+      renderToppings();
+    }
+
+    function clearToast() {
+      placedToppings = [];
+      isToasted = false;
+      renderPlate(false);
+      renderToppings();
+      updateChefComment('✨ Սկսենք նոր տոստ պատրաստել');
+    }
+
+    function randomToast() {
+      placedToppings = [];
+      selectedBread = BREADS[Math.floor(Math.random() * BREADS.length)];
+      isToasted = true;
+      renderBreads();
+      const count = 4 + Math.floor(Math.random() * 4);
+      for (let i = 0; i < count; i++) {
+        const rand = TOPPINGS[Math.floor(Math.random() * TOPPINGS.length)];
+        addToppingAt(rand.id, null, null);
+      }
+      updateChefComment('🎲 Պատահական շեֆ-տոստը պատրաստ է');
+    }
+
+    function renderPlate(animateJump = false) {
+      const canvas = document.getElementById('toast-canvas');
+      let html = `<div class="bread-layer ${animateJump ? 'jumping' : ''}">${getRealisticBreadSVG(selectedBread, isToasted)}</div>`;
+
+      placedToppings.forEach((t, idx) => {
+        html += `
+          <div class="topping-layer"
+               style="left:${t.x}%; top:${t.y}%; --rot:${t.rot}deg; z-index:${idx + 5};"
+               onpointerdown="startMovePlacedTopping(event, ${t.uid})">
+            ${getToppingSVG(t)}
+          </div>
+        `;
+      });
+
+      canvas.innerHTML = html;
+
+      document.getElementById('layer-count').textContent =
+        placedToppings.length === 0
+          ? '💡 Քաշիր միջուկները ափսեի վրա կամ սեղմիր դրանց վրա'
+          : `Ընտրված է ${placedToppings.length} միջուկ (կարող ես քաշելով շարժել)`;
+
+      const pills = document.getElementById('selected-pills');
+      pills.innerHTML = placedToppings.map(t => `
+        <span class="pill" onclick="removeToppingByUid(${t.uid})">${t.name} ✕</span>
+      `).join('');
+    }
+
+    function updateChefComment(text) {
+      document.getElementById('chef-comment').textContent = text;
+    }
+
+    function finishToast() {
+      const modal = document.getElementById('result-modal');
+      const msg = document.getElementById('result-message');
+      const summary = document.getElementById('recipe-summary');
+
+      const toastStatus = isToasted ? 'խրթխրթան տապակած' : 'նուրբ թարմ';
+      if (placedToppings.length === 0) {
+        msg.textContent = `Քո ընտրած ${toastStatus} «${selectedBread.name}» հացը շատ ախորժելի է, բայց մի քանի միջուկ էլ դնես՝ կատարյալ կլինի։`;
+        summary.textContent = `Հիմքը՝ ${selectedBread.name} (${toastStatus})`;
+      } else {
+        const uniqueNames = [...new Set(placedToppings.map(t => t.name))];
+        msg.textContent = `Վա՜յ, այս տոստը ուղղակի շա՜տ համեղ է ստացվել։ ${toastStatus.charAt(0).toUpperCase() + toastStatus.slice(1)} «${selectedBread.name}» հացի և քո ձեռքով դասավորված միջուկների համադրությունը իսկական գլուխգործոց է։`;
+        summary.innerHTML = `<strong>Քո բաղադրատոմսը.</strong> ${selectedBread.name} (${toastStatus}) + ${uniqueNames.join(', ')}`;
+      }
+
+      modal.classList.add('open');
+      launchConfetti();
+    }
+
+    function closeModal() {
+      document.getElementById('result-modal').classList.remove('open');
+    }
+
+    function launchConfetti() {
+      const colors = ['#ff2e82', '#ff85b6', '#ffd166', '#8cd459', '#ff5c9d'];
+      for (let i = 0; i < 45; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.top = '-15px';
+        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        el.style.width = (7 + Math.random() * 8) + 'px';
+        el.style.height = el.style.width;
+        el.style.animationDuration = (1.6 + Math.random() * 1.4) + 's';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 3000);
+      }
+    }
+
+    init();
+  </script>
 </body>
 </html>
